@@ -53,6 +53,13 @@ public class Puerta {
 	 */
 	private void guardarCombinacion(int[] llaves) {
 		//TODO
+		cerrarPuerta();
+	}
+	
+	
+	private void cerrarPuerta() {
+		// TODO Auto-generated method stub
+		// modifica el estado de la puerta y reconfigura los arboles
 	}
 
 	public static void main(String[] args) {
