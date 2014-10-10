@@ -5,7 +5,7 @@ package Estructuras;
  * Clase genérica Arbol
  * @version 0.1 06/10/2014
  * @author Grupo Talos { Jorge Bote Albalá, Juan Jose Ramón Rodríguez }
- * @param T, tipo de dato genérico que hereda de la clase Comparable.
+ * @param T, tipo de dato genérico que implementa la clase Comparable.
  */
 public class Arbol<T extends Comparable<T>> {
 
@@ -21,7 +21,7 @@ public class Arbol<T extends Comparable<T>> {
 	/** Atributo que indica si el arbol esta vacio.	 */
 	private boolean esVacio;
 	
-	/* Metodos de la Clase*/
+	/** Metodos de la Clase */
 	public Arbol() {
 		this.esVacio = true;
 		this.hIzq = null;
@@ -32,7 +32,8 @@ public class Arbol<T extends Comparable<T>> {
 		this.datoRaiz = datoRaiz;
 		this.hIzq = hIzq;
 		this.hDer = hDer;
-		esVacio= false;
+		if(this.datoRaiz != null)//¿es necesario?
+			esVacio= false;
 	}
 
 	public Arbol<T> getHijoIzq() {
@@ -224,7 +225,7 @@ public class Arbol<T extends Comparable<T>> {
 				aux.inOrden();
 			}
 
-			System.out.print(this.datoRaiz);
+			System.out.print(this.datoRaiz.toString() + " ");
 
 			if ((aux = getHijoDer()) != null) {
 				aux.inOrden();
@@ -243,7 +244,7 @@ public class Arbol<T extends Comparable<T>> {
 	public void preOrden() {
 		Arbol<T> aux = null;
 		if (!vacio()) {
-			System.out.println(this.datoRaiz);
+			System.out.print(this.datoRaiz.toString() + " ");
 			if ((aux = getHijoIzq()) != null) {
 				aux.preOrden();
 			}
@@ -269,8 +270,7 @@ public class Arbol<T extends Comparable<T>> {
 			if ((aux = getHijoDer()) != null) {
 				aux.postOrden();
 			}
-			System.out.println(this.datoRaiz);
-
+			System.out.print(this.datoRaiz.toString() + " ");
 		}
 	}
 
@@ -400,9 +400,7 @@ public class Arbol<T extends Comparable<T>> {
 			if (hDer != null) {
 				stringTreeDer = " " + this.hDer.toString();
 			}
-
 			return stringTreeIzq + this.datoRaiz.toString() + stringTreeDer;
-
 		}
 		return "";
 	}

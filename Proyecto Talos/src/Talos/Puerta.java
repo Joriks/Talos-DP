@@ -4,10 +4,11 @@ import Estructuras.Arbol;
 
 /**
  * Clase Puerta, guarda información sobre la cerradura de salida del laberinto.
- * @version 0.1 06/10/2014
+ * @version 0.2 06/10/2014
  * @author Grupo Talos { Jorge Bote Albalá, Juan Jose Ramón Rodríguez }
  */
 public class Puerta {
+	
 	/** Guarda el estado de la puerta */
 	private Estados estado;
 	
@@ -31,8 +32,7 @@ public class Puerta {
 	
 	public Puerta(int[] llaves, int altura_puerta){
 		iniciarArboles();
-		this.altura_puerta = altura_puerta;
-		guardarCombinacion(llaves);
+		configurarPuerta(llaves, altura_puerta);
 	}
 	
 	/**
@@ -47,23 +47,96 @@ public class Puerta {
 		usadas = new Arbol<Llave>();
 	}
 	
+	public void configurarPuerta(int[] llaves, int altura_puerta){
+		this.altura_puerta = altura_puerta;
+		guardarCombinacion(llaves);
+		cerrarPuerta();
+	}
+		
 	/**
 	 * Guarda la combinacion de llaves en la combinación secreta.
 	 * @param llaves
+	 * PRE:
+	 * POST:
+	 * Complejidad:
 	 */
 	private void guardarCombinacion(int[] llaves) {
-		//TODO
-		cerrarPuerta();
+		volcarLlaves(llaves, 0, llaves.length-1);
 	}
 	
-	
-	private void cerrarPuerta() {
-		// TODO Auto-generated method stub
-		// modifica el estado de la puerta y reconfigura los arboles
+	private void volcarLlaves(int[] llaves, int izq, int dch) {
+		int medio = (izq + dch)/2;
+		if(medio >= izq && medio <= dch){
+			combinacion_secreta.insertar(new Llave(llaves[medio]));
+			volcarLlaves(llaves, izq, medio-1);
+			volcarLlaves(llaves, medio+1, dch);
+		}
 	}
 
+	/**
+	 * Cambia el estado de la puerta a Estados.Cerrada y regenera la cerradura de la puerta
+	 * PRE:
+	 * POST:
+	 * Complejidad: O(1)
+	 */
+	private void cerrarPuerta() {
+		cerradura = new Arbol<Llave>(combinacion_secreta.getHijoIzq(),
+				combinacion_secreta.getRaiz(), combinacion_secreta.getHijoDer());
+		usadas = new Arbol<Llave>();//Debe eliminar las llaves usadas o no?
+		estado = Estados.Cerrada;
+	}
+	
+	/**
+	 * Comprueba si una llave pertenece a la cerradura.
+	 * @param llave, llave que vamos a utilizar en la cerradura. 
+	 * @return devuelve true si la llave es correcta, false en caso contrario
+	 * PRE:
+	 * POST:
+	 * Complejidad: O(log n)
+	 */
+	public boolean probarLlave(Llave llave){
+		if(!usadas.pertenece(llave)){
+			if(cerradura.pertenece(llave)){
+				cerradura.borrar(llave);
+				System.out.println("Llave: " + llave.getId() + " Correcta");
+				usadas.insertar(llave);
+				if(condicionApertura())
+					abrirPuerta();
+				return true;
+			}
+			usadas.insertar(llave);
+			System.out.println("Llave: " + llave.getId() + " Incorrecta");
+		}
+		else
+			System.out.println("ALARMA: Llave: " + llave.getId() + " ya probada");
+		return false;
+	}
+	
+	/**
+	 * Comprueba si se cumplen las condiciones de apertura de la cerradura
+	 * @return true si se cumplen, false en caso contrario.
+	 */
+	private boolean condicionApertura() {
+		if(cerradura.profundidad() < altura_puerta && 
+				cerradura.nodosInternos() >= cerradura.nodosHoja())
+			return true;
+		return false;
+	}
+
+	/**
+	 * Cambia el estado de la cerradura de la puerta a Abierta, si la puerta está cerrada
+	 * y configurada.
+	 */
+	private void abrirPuerta() {
+		if(estado == Estados.Cerrada)
+			estado = Estados.Abierta;
+	}
+	
 	public static void main(String[] args) {
 		int[] comb = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
 		Puerta p = new Puerta(comb,2);
+		
+//		System.out.println(comb.length);
+//		p.probarLlave(new Llave(5));
 	}
 }
