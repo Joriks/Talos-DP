@@ -37,10 +37,12 @@ public class Llave implements Comparable<Llave>{
 	
 	@Override
 	public boolean equals(Object o) {
+		if(this == o)
+			return true;
 		if (!(o instanceof Llave))
     		return false;
-    	Llave l = (Llave) o; 
-    	return (id == l.id);
+    	Llave llave = (Llave) o; 
+    	return (this.id == llave.id);
 	}
 	
 	@Override
