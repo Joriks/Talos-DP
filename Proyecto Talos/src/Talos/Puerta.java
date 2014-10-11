@@ -132,6 +132,11 @@ public class Puerta {
 			estado = Estados.Abierta;
 	}
 	
+	@Override
+	public String toString() {
+		return ("(Puerta:" + estado + ":" + altura_puerta + ":" + combinacion_secreta.toString()+":"+usadas.toString()+")");
+	}
+	
 	public static void main(String[] args) {
 		int[] comb = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
 		Puerta p = new Puerta(comb,2);
