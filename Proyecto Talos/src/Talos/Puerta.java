@@ -136,7 +136,10 @@ public class Puerta {
 		int[] comb = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
 		Puerta p = new Puerta(comb,2);
 		
-//		System.out.println(comb.length);
-//		p.probarLlave(new Llave(5));
+		System.out.println(comb.length);
+		p.probarLlave(new Llave(5));
+		p.probarLlave(new Llave(5));
+		p.probarLlave(new Llave(15));
+		p.probarLlave(new Llave(15));
 	}
 }
