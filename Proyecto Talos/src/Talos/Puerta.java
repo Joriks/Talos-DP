@@ -80,8 +80,7 @@ public class Puerta {
 	 * Complejidad: O(1)
 	 */
 	private void cerrarPuerta() {
-		cerradura = new Arbol<Llave>(combinacion_secreta.getHijoIzq(),
-				combinacion_secreta.getRaiz(), combinacion_secreta.getHijoDer());
+		cerradura = new Arbol<Llave>(combinacion_secreta);
 		usadas = new Arbol<Llave>();//Debe eliminar las llaves usadas o no?
 		estado = Estados.Cerrada;
 	}
@@ -134,17 +133,20 @@ public class Puerta {
 	
 	@Override
 	public String toString() {
-		return ("(Puerta:" + estado + ":" + altura_puerta + ":" + combinacion_secreta.toString()+":"+usadas.toString()+")");
+		return ("(Puerta:" + estado + ":" + altura_puerta + ":" + cerradura.toString()+":"+usadas.toString()+")");
 	}
 	
 	public static void main(String[] args) {
 		int[] comb = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
 		Puerta p = new Puerta(comb,2);
 		
-		System.out.println(comb.length);
+		System.out.println(p.toString());
 		p.probarLlave(new Llave(5));
+		System.out.println(p.toString());
 		p.probarLlave(new Llave(5));
+		System.out.println(p.toString());
 		p.probarLlave(new Llave(15));
+		System.out.println(p.toString());
 		p.probarLlave(new Llave(15));
 	}
 }

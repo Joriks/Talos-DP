@@ -35,6 +35,14 @@ public class Arbol<T extends Comparable<T>> {
 		if(this.datoRaiz != null)//¿es necesario?
 			esVacio= false;
 	}
+	
+	public Arbol(Arbol<T> a){
+		this.datoRaiz = a.datoRaiz;
+		if(a.hIzq != null)
+			this.hIzq = new Arbol<T>(a.hIzq);
+		if(a.hDer != null)
+			this.hDer = new Arbol<T>(a.hDer);
+	}
 
 	public Arbol<T> getHijoIzq() {
 		return hIzq;
