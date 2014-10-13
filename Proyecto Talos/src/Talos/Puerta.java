@@ -131,6 +131,10 @@ public class Puerta {
 			estado = Estados.Abierta;
 	}
 	
+	public Estados estadoPuerta(){
+		return estado;
+	}
+	
 	@Override
 	public String toString() {
 		return ("(Puerta:" + estado + ":" + altura_puerta + ":" + cerradura.toString()+":"+usadas.toString()+")");
