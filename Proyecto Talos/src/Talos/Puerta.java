@@ -142,15 +142,22 @@ public class Puerta {
 	
 	public static void main(String[] args) {
 		int[] comb = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
+		int[] comb2 = {1,3,4,6};
 		Puerta p = new Puerta(comb,2);
 		
-		System.out.println(p.toString());
 		p.probarLlave(new Llave(5));
-		System.out.println(p.toString());
 		p.probarLlave(new Llave(5));
-		System.out.println(p.toString());
 		p.probarLlave(new Llave(15));
-		System.out.println(p.toString());
 		p.probarLlave(new Llave(15));
+		
+		Puerta p2 = new Puerta(comb2,3);
+		p2.probarLlave(new Llave(1));
+		if(p2.estadoPuerta() == Estados.Abierta)
+			System.out.println("Puerta Abierta");
+		else
+			System.out.println("Puerta Cerrada");
+		p2.probarLlave(new Llave(6));
+		if(p2.estadoPuerta() == Estados.Abierta)
+			System.out.println("Puerta Abierta");
 	}
 }
