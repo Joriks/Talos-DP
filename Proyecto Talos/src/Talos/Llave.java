@@ -2,7 +2,7 @@ package Talos;
 
 /**
  * Clase Llave, dispone de un código numérico que permite identificarla.
- * @version 0.1 06/10/2014
+ * @version 0.2 06/10/2014
  * @author Grupo Talos { Jorge Bote Albalá, Juan Jose Ramón Rodríguez }
  */
 public class Llave implements Comparable<Llave>{
@@ -27,16 +27,26 @@ public class Llave implements Comparable<Llave>{
 	}
 
 	@Override
-	public String toString() {
-		return Integer.toString(id);
-	}
-
-	@Override
 	public int compareTo(Llave o) {
 		if(this.id < o.id)
 			return -1;
 		if(this.id > o.id)
 			return 1;
 		return 0;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(this == o)
+			return true;
+		if (!(o instanceof Llave))
+    		return false;
+    	Llave llave = (Llave) o; 
+    	return (this.id == llave.id);
+	}
+	
+	@Override
+	public String toString() {
+		return Integer.toString(id);
 	}
 }
