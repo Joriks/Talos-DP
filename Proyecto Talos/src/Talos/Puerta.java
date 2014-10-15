@@ -143,6 +143,8 @@ public class Puerta {
 	public static void main(String[] args) {
 		int[] comb = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
 		int[] comb2 = {1,3,4,6};
+		int[] comb3 ={1,2,3,4,5,6,7,8,9,10,11};
+		
 		Puerta p = new Puerta(comb,2);
 		
 		p.probarLlave(new Llave(5));
@@ -159,5 +161,15 @@ public class Puerta {
 		p2.probarLlave(new Llave(6));
 		if(p2.estadoPuerta() == Estados.Abierta)
 			System.out.println("Puerta Abierta");
+		
+		Puerta p3 = new Puerta(comb3,4);
+		int i=0;
+		while(p3.estadoPuerta() != Estados.Abierta && i<comb3.length){
+			p3.probarLlave(new Llave(comb3[i]));
+			i++;
+		}
+		if(p3.estadoPuerta() == Estados.Abierta)
+			System.out.println("Puerta 3 Abierta tras probar " + i + " llaves de " + comb3.length);	
+		
 	}
 }
