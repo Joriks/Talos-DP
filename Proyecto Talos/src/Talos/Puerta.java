@@ -1,5 +1,7 @@
 package Talos;
 
+import java.util.Random;
+
 import Estructuras.Arbol;
 
 /**
@@ -141,8 +143,9 @@ public class Puerta {
 	}
 	
 	public static void main(String[] args) {
-		int[] comb = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
-		int[] comb2 = {1,3,4,6};
+		
+		System.out.println("--------Puerta 1--------");
+		int[] comb = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};		
 		Puerta p = new Puerta(comb,2);
 		
 		p.probarLlave(new Llave(5));
@@ -150,7 +153,10 @@ public class Puerta {
 		p.probarLlave(new Llave(15));
 		p.probarLlave(new Llave(15));
 		
+		System.out.println("--------Puerta 2--------");
+		int[] comb2 = {1,3,4,6};
 		Puerta p2 = new Puerta(comb2,3);
+		
 		p2.probarLlave(new Llave(1));
 		if(p2.estadoPuerta() == Estados.Abierta)
 			System.out.println("Puerta Abierta");
@@ -159,5 +165,30 @@ public class Puerta {
 		p2.probarLlave(new Llave(6));
 		if(p2.estadoPuerta() == Estados.Abierta)
 			System.out.println("Puerta Abierta");
+		
+		System.out.println("--------Puerta 3--------");
+		int[] comb3 = {1,2,3,4,5,6,7,8,9,10,11};
+		Puerta p3 = new Puerta(comb3,4);
+		int i=0;
+		
+		while(p3.estadoPuerta() != Estados.Abierta && i < comb3.length){
+			p3.probarLlave(new Llave(comb3[i]));
+			i++;
+		}
+		if(p3.estadoPuerta() == Estados.Abierta)
+			System.out.println("Puerta 3 Abierta tras probar " + i + " llaves de " + comb3.length);	
+		
+		System.out.println("--------Puerta 4--------");
+		int[] comb4 = {2,4,5,7,6,1,8,9};
+		Puerta p4 = new Puerta();
+		System.out.println("Puerta: " + p4.estadoPuerta());
+		System.out.println("configurando puerta con llaves 2,4,5,7,6,1,8,9 y altura de puerta 2");
+		p4.configurarPuerta(comb4, 2);
+		System.out.println("Puerta: " + p4.estadoPuerta());
+		Random random = new Random(10);
+		while(p4.estadoPuerta() != Estados.Abierta){
+			p4.probarLlave(new Llave(random.nextInt(10)));
+			System.out.println("Puerta: " + p4.estado);
+		}
 	}
 }
