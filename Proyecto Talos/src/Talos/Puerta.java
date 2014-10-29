@@ -83,7 +83,7 @@ public class Puerta {
 	 */
 	private void cerrarPuerta() {
 		cerradura = new Arbol<Llave>(combinacion_secreta);
-		usadas = new Arbol<Llave>();//Debe eliminar las llaves usadas o no?
+		usadas = new Arbol<Llave>();
 		estado = Estados.Cerrada;
 	}
 	
