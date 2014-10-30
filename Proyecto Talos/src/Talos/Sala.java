@@ -1,8 +1,9 @@
 package Talos;
 
-import java.util.Iterator;
+import java.util.ArrayDeque;
+import java.util.Collections;
+import java.util.Deque;
 import java.util.LinkedList;
-import java.util.TreeSet;
 
 import Robots.Robot;
 
@@ -14,24 +15,24 @@ import Robots.Robot;
 public class Sala {
 	/** Guarda el identificador de la sala*/
 	private int id_sala;
-	/** Llaves guardadas en la sala*/
-	private LinkedList<Llave> llaves_sala;
-	/** Robots que se encuentran en la sala*/
-	private LinkedList<Robot> robots_sala;
+	/** Lista de llaves guardadas en la sala*/
+	private LinkedList<Llave> llaves_sala; // Preguntar sobre definición de interface.
+	/** Cola de robots que se encuentran en la sala*/
+	private Deque<Robot> robots_sala;
 	/** Información de la puerta, si la tiene*/
 	Puerta puerta;
 	
 	public Sala(int id){
 		id_sala = id;
 		llaves_sala = new LinkedList<Llave>();
-		robots_sala = new LinkedList<Robot>();
+		robots_sala = new ArrayDeque<Robot>();
 		puerta = null;
 	}
 	
 	public Sala(int id, LinkedList<Llave> llaves_sala){
 		id_sala = id;
 		this.llaves_sala = llaves_sala;
-		robots_sala = new LinkedList<Robot>();
+		robots_sala = new ArrayDeque<Robot>();
 		puerta = null;
 	}
 	
@@ -61,10 +62,11 @@ public class Sala {
 	/**
 	 * Metodo que introduce una llave en la sala 
 	 * @param llave Llave a meter en la sala
-	 * Complejidad: O(1)
+	 * Complejidad: O(n)
 	 */
 	public void meterLlave(Llave llave){
 		llaves_sala.add(llave);
+		Collections.sort(llaves_sala);
 	}
 	
 	/**
@@ -73,7 +75,7 @@ public class Sala {
 	 * Complejidad: O(1)
 	 */
 	public Robot sacarRobot(){
-		return robots_sala.removeFirst();
+		return robots_sala.poll();
 	}
 	
 	/**
