@@ -7,6 +7,11 @@ import Talos.Llave;
 import Talos.Puerta;
 import Talos.Sala;
 
+/**
+ * Clase Robot, guarda información sobre las llaves, ruta y sala del robot.
+ * @version 0.2 30/10/2014
+ * @author Grupo Talos { Jorge Bote Albalá, Juan Jose Ramón Rodríguez }
+ */
 public abstract class Robot {
 	protected String nombre;
 	protected char marca;
@@ -35,6 +40,12 @@ public abstract class Robot {
 		generarRuta();
 	}
 
+	/**
+	 * Genera la ruta que va a seguir el robot.
+	 * PRE:
+	 * POST:
+	 * Complejidad: O(1).
+	 */
 	private void generarRuta() {
 		ruta.add(Direccion.S);
 		ruta.add(Direccion.E);
@@ -43,46 +54,86 @@ public abstract class Robot {
 		ruta.add(Direccion.O);
 	}
 
-	public void simularTurno(){
-		interactuarPuerta(new Puerta());
-		moverRobot();
-		interactuarLlave(new Sala());
-		incrementarTurno();
+	/**
+	 * Simula la ejecución de un turno del robot
+	 * PRE:
+	 * POST:
+	 * Complejidad: O(log n)
+	 */
+	public void simularTurno(Sala sala, int turno_actual){
+		if(this.turno == turno_actual){
+			interactuarPuerta(sala.puerta);
+			moverRobot();
+			interactuarLlave(sala);
+			incrementarTurno();
+		}
 	}
 
+	/**
+	 * Accion a ejecutar sobre la puerta.
+	 * @param puerta, puerta sobre la que se va a ejecutar una acción
+	 * PRE:
+	 * POST:
+	 * Complejidad: O(log n)
+	 */
 	protected void interactuarPuerta(Puerta puerta){
-//		puerta.probarLlave(llaves.removeLast());
-		System.out.println(nombre + ":" + marca + ":" + "Abro puerta");
+		if(puerta != null)
+			puerta.probarLlave(llaves.pollLast());
 	}
 
+	/**
+	 * Mueve el robot a la sala designada por el movimiento obtenido desde la ruta
+	 * PRE:
+	 * POST:
+	 * Complejidad: O(1)
+	 */
 	protected void moverRobot(){
 		Direccion movimiento = ruta.poll();
-		switch (movimiento) {
+		int ancho = 6, alto = 6;
+		switch (movimiento) {//comprobar Este y oeste
 		case N:
-			System.out.println(nombre + ":" + marca + ":" + "Moviendo al norte");
+			if(sala_actual-ancho > 0)
+				sala_actual -= ancho;
 			break;
 		case S:
-			System.out.println(nombre + ":" + marca + ":" + "Moviendo al sur");			
+			if(sala_actual+ancho < ancho*alto)
+				sala_actual += ancho;
 			break;
 		case E:
-			System.out.println(nombre + ":" + marca + ":" + "Moviendo al este");
+			if(sala_actual+1 < sala_actual%ancho)
+				sala_actual++;
 			break;
 		case O:
-			System.out.println(nombre + ":" + marca + ":" + "Moviendo al oeste");
+			if(sala_actual-1 > sala_actual%ancho)
+				sala_actual--;
 			break;
 
 		default:
-			System.out.println("Error de direccion");
+			System.out.println("Error de direccion");//Cambiar por DireccionException?
 			break;
 		}
 		ruta.addLast(movimiento);
 	}
 	
-	protected void interactuarLlave(Sala s){
-		llaves.add(s.obtenerLlave());
-		System.out.println(nombre + ":" + marca + ":" + "Cojo llave");
+	/**
+	 * Ejecuta una accion de una llave sobre una sala
+	 * @param sala, sala sobre la que se va a realizar la acción de la llave.
+	 * PRE:
+	 * POST:
+	 * Complejidad: O(1).
+	 */
+	protected void interactuarLlave(Sala sala){
+		Llave l;
+		if(sala != null && (l = sala.sacarLlave()) != null)
+			llaves.add(l);
 	}
 	
+	/**
+	 * Incrementa el turno del robot.
+	 * PRE:
+	 * POST:
+	 * Complejidad: O(1).
+	 */
 	private void incrementarTurno() {
 		turno++;
 	}
@@ -99,8 +150,16 @@ public abstract class Robot {
 //		Sonny sy = new Sonny('S',0,0);
 		Spirit s = new Spirit('T',0,ancho*(alto-1));
 //		Asimo a = new Asimo('A',0,ancho*alto-1);
+		Sala sala = new Sala(5);
+		int[] llaves = {1,3,5,4};
+		sala.puerta = new Puerta(llaves, 5);
+		sala.meterLlave(new Llave(5));
+		sala.meterLlave(new Llave(1));
+		sala.meterLlave(new Llave(3));
+		sala.meterLlave(new Llave(8));
 		s.llaves.add(new Llave(5));
 		s.llaves.add(new Llave(3));
+		s.llaves.add(new Llave(4));
 		s.llaves.add(new Llave(1));
 //		a.llaves.add(new Llave(1));
 //		a.llaves.add(new Llave(3));
@@ -110,7 +169,9 @@ public abstract class Robot {
 //		System.out.println(a.toString());
 //		b.simularTurno();
 //		sy.simularTurno();
-		s.simularTurno();
+		s.simularTurno(sala,0);
+		s.simularTurno(sala,1);
+		s.simularTurno(sala,2);
 //		a.simularTurno();
 		System.out.println(s.toString());
 //		System.out.println(a.toString());

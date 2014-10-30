@@ -3,6 +3,11 @@ package Robots;
 import Talos.Puerta;
 import Talos.Sala;
 
+/**
+ * Clase Asimo, hereda de la clase robot.
+ * @version 0.2 30/10/2014
+ * @author Grupo Talos { Jorge Bote Albalá, Juan Jose Ramón Rodríguez }
+ */
 public class Asimo extends Robot{
 
 	public Asimo() {
@@ -20,7 +25,7 @@ public class Asimo extends Robot{
 
 	@Override
 	protected void interactuarLlave(Sala sala) {
-		sala.insertarLlave(llaves.pollLast());
+		sala.meterLlave(llaves.pollLast());
 		System.out.println(nombre + ":" + marca + ":" + "Suelto llave");
 	}
 }
