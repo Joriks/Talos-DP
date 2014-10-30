@@ -1,7 +1,7 @@
 package Robots;
 
-import java.util.LinkedList;
-import java.util.TreeSet;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import Talos.Llave;
 import Talos.Puerta;
@@ -17,16 +17,16 @@ public abstract class Robot {
 	protected char marca;
 	protected int turno;
 	protected int sala_actual;
-	protected TreeSet<Llave> llaves;
-	protected LinkedList<Direccion> ruta;
+	protected Deque<Llave> llaves;
+	protected Deque<Direccion> ruta;
 	
 	public Robot() {
 		nombre = "Robot";
 		marca = 'R';
 		turno = 0;
 		sala_actual = 0;
-		llaves = new TreeSet<Llave>();
-		ruta = new LinkedList<Direccion>();
+		llaves = new ArrayDeque<Llave>();
+		ruta = new ArrayDeque<Direccion>();
 		generarRuta();
 	}
 	
@@ -35,8 +35,8 @@ public abstract class Robot {
 		this.marca = marca;
 		this.turno = turno;
 		this.sala_actual = sala_actual;
-		llaves = new TreeSet<Llave>();
-		ruta = new LinkedList<Direccion>();
+		llaves = new ArrayDeque<Llave>();
+		ruta = new ArrayDeque<Direccion>();
 		generarRuta();
 	}
 
@@ -47,11 +47,11 @@ public abstract class Robot {
 	 * Complejidad: O(1).
 	 */
 	private void generarRuta() {
-		ruta.add(Direccion.S);
-		ruta.add(Direccion.E);
-		ruta.add(Direccion.N);
-		ruta.add(Direccion.E);
-		ruta.add(Direccion.O);
+		ruta.addLast(Direccion.S);
+		ruta.addLast(Direccion.E);
+		ruta.addLast(Direccion.N);
+		ruta.addLast(Direccion.E);
+		ruta.addLast(Direccion.O);
 	}
 
 	/**
@@ -78,7 +78,7 @@ public abstract class Robot {
 	 */
 	protected void interactuarPuerta(Puerta puerta){
 		if(puerta != null)
-			puerta.probarLlave(llaves.pollLast());
+			puerta.probarLlave(llaves.pop());
 	}
 
 	/**
@@ -88,7 +88,7 @@ public abstract class Robot {
 	 * Complejidad: O(1)
 	 */
 	protected void moverRobot(){
-		Direccion movimiento = ruta.poll();
+		Direccion movimiento = ruta.pollFirst();
 		int ancho = 6, alto = 6;
 		switch (movimiento) {//comprobar Este y oeste
 		case N:
@@ -123,9 +123,9 @@ public abstract class Robot {
 	 * Complejidad: O(1).
 	 */
 	protected void interactuarLlave(Sala sala){
-		Llave l;
-		if(sala != null && (l = sala.sacarLlave()) != null)
-			llaves.add(l);
+		Llave llave;
+		if(sala != null && (llave = sala.sacarLlave()) != null)
+			llaves.push(llave);
 	}
 	
 	/**
