@@ -25,7 +25,7 @@ public class Asimo extends Robot{
 
 	@Override
 	protected void interactuarLlave(Sala sala) {
-		sala.meterLlave(llaves.pollLast());
+		sala.meterLlave(llaves.pop());
 		System.out.println(nombre + ":" + marca + ":" + "Suelto llave");
 	}
 }
