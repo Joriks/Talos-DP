@@ -62,7 +62,7 @@ public abstract class Robot {
 	 */
 	public void simularTurno(Sala sala, int turno_actual){
 		if(this.turno == turno_actual){
-			interactuarPuerta(sala.puerta);
+			interactuarPuerta(sala.obtenerPuerta());
 			moverRobot();
 			interactuarLlave(sala);
 			incrementarTurno();
@@ -152,7 +152,7 @@ public abstract class Robot {
 //		Asimo a = new Asimo('A',0,ancho*alto-1);
 		Sala sala = new Sala(5);
 		int[] llaves = {1,3,5,4};
-		sala.puerta = new Puerta(llaves, 5);
+		sala.configurarPuerta(llaves,5);
 		sala.meterLlave(new Llave(5));
 		sala.meterLlave(new Llave(1));
 		sala.meterLlave(new Llave(3));
