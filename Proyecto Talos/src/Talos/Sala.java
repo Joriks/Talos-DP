@@ -91,7 +91,7 @@ public class Sala {
 	 */
 	public void simularTurno(int turno_actual){
 		for(Robot robot : robots_sala)
-			robot.simularTurno(turno_actual);
+			robot.simularTurno(this, turno_actual);
 	}
 	
 	@Override
