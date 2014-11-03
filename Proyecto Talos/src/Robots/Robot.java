@@ -3,6 +3,7 @@ package Robots;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import Talos.Laberinto;
 import Talos.Llave;
 import Talos.Puerta;
 import Talos.Sala;
@@ -63,7 +64,7 @@ public abstract class Robot {
 	public void simularTurno(Sala sala, int turno_actual){
 		if(this.turno == turno_actual){
 			interactuarPuerta(sala.obtenerPuerta());
-			moverRobot();
+			moverRobot(new Laberinto());
 			interactuarLlave(sala);
 			incrementarTurno();
 		}
@@ -87,9 +88,10 @@ public abstract class Robot {
 	 * POST:
 	 * Complejidad: O(1)
 	 */
-	protected void moverRobot(){
+	protected void moverRobot(Laberinto laberinto){
 		Direccion movimiento = ruta.pollFirst();
 		int ancho = 6, alto = 6;
+		laberinto.sacarRobot(sala_actual);
 		switch (movimiento) {//comprobar Este y oeste
 		case N:
 			if(sala_actual-ancho > 0)
@@ -112,6 +114,7 @@ public abstract class Robot {
 			System.out.println("Error de direccion");//Cambiar por DireccionException?
 			break;
 		}
+		laberinto.meterRobot(sala_actual);
 		ruta.addLast(movimiento);
 	}
 	
