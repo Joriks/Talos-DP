@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import Robots.Robot;
 
@@ -92,7 +93,9 @@ public class Sala {
 	 * Complejidad: O(n log n)
 	 */
 	public void simularTurno(int turno_actual){
-		for(Robot robot : robots_sala)
+		//Optimizar con un contador o dejar con el copyonwirte
+		CopyOnWriteArrayList<Robot> robots = new CopyOnWriteArrayList<Robot>(robots_sala);
+		for(Robot robot : robots)
 			robot.simularTurno(this, turno_actual);
 	}
 	
