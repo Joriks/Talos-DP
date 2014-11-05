@@ -3,6 +3,7 @@ package Robots;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import Talos.Estados;
 import Talos.Laberinto;
 import Talos.Llave;
 import Talos.Puerta;
@@ -14,11 +15,23 @@ import Talos.Sala;
  * @author Grupo Talos { Jorge Bote Albalá, Juan Jose Ramón Rodríguez }
  */
 public abstract class Robot {
+	
+	/** Nombre del robot */
 	protected String nombre;
+	
+	/** Marca unica e identificativa del robot */
 	protected char marca;
+	
+	/** Turno que ha ejecutado por ultima vez */
 	protected int turno;
+	
+	/** Identificador de la sala en la que se encuentra el robot */
 	protected int sala_actual;
+	
+	/** Conjunto de llaves que tiene el robot */
 	protected Deque<Llave> llaves;
+	
+	/** Conjunto de movimientos que realiza el robot */
 	protected Deque<Direccion> ruta;
 	
 	public Robot() {
@@ -28,7 +41,6 @@ public abstract class Robot {
 		sala_actual = 0;
 		llaves = new ArrayDeque<Llave>();
 		ruta = new ArrayDeque<Direccion>();
-		generarRuta();
 	}
 	
 	public Robot(String nombre, char marca, int turno, int sala_actual) {
@@ -38,34 +50,54 @@ public abstract class Robot {
 		this.sala_actual = sala_actual;
 		llaves = new ArrayDeque<Llave>();
 		ruta = new ArrayDeque<Direccion>();
-		generarRuta();
+	}
+	
+	/**
+	 * Asigna el conjunto de direcciones a la ruta del robot.
+	 * @param direcciones
+	 */
+	public void asignarRuta(Direccion[] direcciones){
+		for (Direccion movimiento : direcciones)
+			ruta.addLast(movimiento);
 	}
 
 	/**
-	 * Genera la ruta que va a seguir el robot.
-	 * PRE:
-	 * POST:
-	 * Complejidad: O(1).
+	 * Obtiene el identificador de la sala en la que se encuentra el robot
+	 * en ese turno.
+	 * @return
 	 */
-	private void generarRuta() {
-		ruta.addLast(Direccion.S);
-		ruta.addLast(Direccion.E);
-		ruta.addLast(Direccion.N);
-		ruta.addLast(Direccion.E);
-		ruta.addLast(Direccion.O);
+	public int obtenerSala(){
+		return sala_actual;
 	}
-
+	
+	/**
+	 * Obtiene la marca identificativa del robot.
+	 * @return
+	 */
+	public char obtenerMarca(){
+		return marca;
+	}
+	
 	/**
 	 * Simula la ejecución de un turno del robot
 	 * PRE:
 	 * POST:
 	 * Complejidad: O(log n)
+	 * @param laberinto 
 	 */
-	public void simularTurno(Sala sala, int turno_actual){
+	public void simularTurno(Laberinto laberinto, int turno_actual){
 		if(this.turno == turno_actual){
-			interactuarPuerta(sala.obtenerPuerta());
-			moverRobot(new Laberinto());
-			interactuarLlave(sala);
+			if(laberinto.tienePuerta(sala_actual)){
+				Puerta p = laberinto.obtenerPuerta(sala_actual);
+				interactuarPuerta(p);
+				if(p.estadoPuerta() == Estados.Abierta){
+					laberinto.moverRobot(sala_actual, 1111);
+					sala_actual = 1111;
+				}
+			}
+			else
+				moverRobot(laberinto);
+			interactuarLlave(laberinto.obtenerSala(sala_actual));
 			incrementarTurno();
 		}
 	}
@@ -79,7 +111,12 @@ public abstract class Robot {
 	 */
 	protected void interactuarPuerta(Puerta puerta){
 		if(puerta != null)
-			puerta.probarLlave(llaves.pop());
+			try {
+				System.out.println("Probada llave" + llaves.peekLast().toString());
+				puerta.probarLlave(llaves.pop());
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 	}
 
 	/**
@@ -91,8 +128,8 @@ public abstract class Robot {
 	protected void moverRobot(Laberinto laberinto){
 		Direccion movimiento = ruta.pollFirst();
 		int ancho = 6, alto = 6;
-		laberinto.sacarRobot(sala_actual);
-		switch (movimiento) {//comprobar Este y oeste
+		int sala_antigua = sala_actual;
+		switch (movimiento) {
 		case N:
 			if(sala_actual-ancho > 0)
 				sala_actual -= ancho;
@@ -102,19 +139,19 @@ public abstract class Robot {
 				sala_actual += ancho;
 			break;
 		case E:
-			if(sala_actual+1 < sala_actual%ancho)
+			if(sala_actual%ancho != ancho-1)
 				sala_actual++;
 			break;
 		case O:
-			if(sala_actual-1 > sala_actual%ancho)
+			if(sala_actual%ancho != 0)
 				sala_actual--;
 			break;
 
 		default:
-			System.out.println("Error de direccion");//Cambiar por DireccionException?
+			System.err.println("Error de direccion");//Cambiar por DireccionException?
 			break;
 		}
-		laberinto.meterRobot(sala_actual);
+		laberinto.moverRobot(sala_antigua, sala_actual);
 		ruta.addLast(movimiento);
 	}
 	
@@ -137,7 +174,7 @@ public abstract class Robot {
 	 * POST:
 	 * Complejidad: O(1).
 	 */
-	private void incrementarTurno() {
+	protected void incrementarTurno() {
 		turno++;
 	}
 	
@@ -172,9 +209,9 @@ public abstract class Robot {
 //		System.out.println(a.toString());
 //		b.simularTurno();
 //		sy.simularTurno();
-		s.simularTurno(sala,0);
-		s.simularTurno(sala,1);
-		s.simularTurno(sala,2);
+//		s.simularTurno(sala,0);
+//		s.simularTurno(sala,1);
+//		s.simularTurno(sala,2);
 //		a.simularTurno();
 		System.out.println(s.toString());
 //		System.out.println(a.toString());
