@@ -81,7 +81,7 @@ public class Puerta {
 	 * POST:
 	 * Complejidad: O(1)
 	 */
-	private void cerrarPuerta() {
+	public void cerrarPuerta() {
 		cerradura = new Arbol<Llave>(combinacion_secreta);
 		usadas = new Arbol<Llave>();
 		estado = Estados.Cerrada;
@@ -190,5 +190,6 @@ public class Puerta {
 			p4.probarLlave(new Llave(random.nextInt(10)));
 			System.out.println("Puerta: " + p4.estado);
 		}
+		System.out.println(p.toString());
 	}
 }

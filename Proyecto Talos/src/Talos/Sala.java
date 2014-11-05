@@ -14,14 +14,18 @@ import Robots.Robot;
  * @author Grupo Talos { Jorge Bote Albalá, Juan Jose Ramón Rodríguez }
  */
 public class Sala {
+	
 	/** Guarda el identificador de la sala*/
 	private int id_sala;
+	
 	/** Lista de llaves guardadas en la sala*/
 	private LinkedList<Llave> llaves_sala; // Preguntar sobre definición de interface.
+	
 	/** Cola de robots que se encuentran en la sala*/
 	private Deque<Robot> robots_sala;
+	
 	/** Información de la puerta, si la tiene*/
-	Puerta puerta;
+	private Puerta puerta;
 	
 	public Sala(int id){
 		id_sala = id;
@@ -92,16 +96,34 @@ public class Sala {
 	 * @param turno_actual Información sobre el turno actual en la simulación
 	 * Complejidad: O(n log n)
 	 */
-	public void simularTurno(int turno_actual){
+	public void simularTurno(Laberinto laberinto, int turno_actual){
 		//Optimizar con un contador o dejar con el copyonwirte
 		CopyOnWriteArrayList<Robot> robots = new CopyOnWriteArrayList<Robot>(robots_sala);
 		for(Robot robot : robots)
-			robot.simularTurno(this, turno_actual);
+			robot.simularTurno(laberinto, turno_actual);
 	}
 	
+	public String robotsEnSala(){
+		if(robots_sala.size() == 1){
+			char marca = robots_sala.getFirst().obtenerMarca();
+			return Character.toString(marca);
+		}
+		else
+			if(robots_sala.size() == 0)
+				return "_";
+			else
+				return Integer.toString(robots_sala.size());
+	}
+	
+	public String stringGanadores(){
+		return "(robotsganadores)\n" + robots_sala.toString().replace(", ", "\n")
+				.replace("[", "").replace("]", "");
+	}
+
 	@Override
 	public String toString() {
-		return "(sala:" + id_sala + ":" + llaves_sala.toString() + ")";
+		return "(sala:" + id_sala + ":" + llaves_sala.toString().replace(", ", "\n")
+				.replace("[", "").replace("]", "") + ")";
 	}
 
 	public static void main(String[] args) {
@@ -121,5 +143,6 @@ public class Sala {
 			System.out.println(l2.toString());
 		else
 			System.out.println("No hay llave");
+		System.out.println(s.toString());
 	}
 }
