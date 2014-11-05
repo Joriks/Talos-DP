@@ -183,38 +183,4 @@ public abstract class Robot {
 		return "(" + nombre + ":" + marca + ":" + sala_actual + ":" + turno +
 				 ":" + llaves.toString() + ")";
 	}
-	
-	public static void main(String[] args) {
-		int ancho = 6, alto = 6;
-//		Bender b = new Bender('B',0,0);
-//		Sonny sy = new Sonny('S',0,0);
-		Spirit s = new Spirit('T',0,ancho*(alto-1));
-//		Asimo a = new Asimo('A',0,ancho*alto-1);
-		Sala sala = new Sala(5);
-		int[] llaves = {1,3,5,4};
-		sala.configurarPuerta(llaves,5);
-		sala.meterLlave(new Llave(5));
-		sala.meterLlave(new Llave(1));
-		sala.meterLlave(new Llave(3));
-		sala.meterLlave(new Llave(8));
-		s.llaves.add(new Llave(5));
-		s.llaves.add(new Llave(3));
-		s.llaves.add(new Llave(4));
-		s.llaves.add(new Llave(1));
-//		a.llaves.add(new Llave(1));
-//		a.llaves.add(new Llave(3));
-//		System.out.println(b.toString());
-//		System.out.println(sy.toString());
-		System.out.println(s.toString());
-//		System.out.println(a.toString());
-//		b.simularTurno();
-//		sy.simularTurno();
-//		s.simularTurno(sala,0);
-//		s.simularTurno(sala,1);
-//		s.simularTurno(sala,2);
-//		a.simularTurno();
-		System.out.println(s.toString());
-//		System.out.println(a.toString());
-	}
-	
 }

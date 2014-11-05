@@ -125,24 +125,4 @@ public class Sala {
 		return "(sala:" + id_sala + ":" + llaves_sala.toString().replace(", ", "\n")
 				.replace("[", "").replace("]", "") + ")";
 	}
-
-	public static void main(String[] args) {
-		Sala s= new Sala(1);
-		s.meterLlave(new Llave(1));
-		s.meterLlave(new Llave(2));
-		s.meterLlave(new Llave(3));
-		Llave l=null, l2=null;
-		l=s.sacarLlave();
-		System.out.println(l.toString());
-		l2=s.sacarLlave();
-		System.out.println(l2.toString());
-		l2=s.sacarLlave();
-		System.out.println(l2.toString());
-		l2=s.sacarLlave();
-		if(l2!=null)
-			System.out.println(l2.toString());
-		else
-			System.out.println("No hay llave");
-		System.out.println(s.toString());
-	}
 }
