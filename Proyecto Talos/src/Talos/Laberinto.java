@@ -3,10 +3,10 @@ package Talos;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import Robots.Direccion;
-import Robots.Robot;
 import Robots.Asimo;
 import Robots.Bender;
+import Robots.Direccion;
+import Robots.Robot;
 import Robots.Sonny;
 import Robots.Spirit;
 

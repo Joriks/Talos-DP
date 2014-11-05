@@ -1,7 +1,5 @@
 package Talos;
 
-import java.util.Random;
-
 import Estructuras.Arbol;
 
 /**
