@@ -19,7 +19,7 @@ public class Sala {
 	private int id_sala;
 	
 	/** Lista de llaves guardadas en la sala*/
-	private LinkedList<Llave> llaves_sala; // Preguntar sobre definición de interface.
+	private LinkedList<Llave> llaves_sala;
 	
 	/** Cola de robots que se encuentran en la sala*/
 	private Deque<Robot> robots_sala;
