@@ -60,7 +60,7 @@ public class Sala {
 	 * @return la llave que saca
 	 * Complejidad: O(1)
 	 */
-	public Llave sacarLlave(){	//Como se podría hacer con la llave como parámetro
+	public Llave sacarLlave(){	
 		return llaves_sala.pollFirst();
 	}
 	
