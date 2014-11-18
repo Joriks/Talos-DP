@@ -1,0 +1,8 @@
+--Laberinto
+LABERINTO#6#6#35#5#
+--Robots de la simulación
+BENDER#BBRodrigueze#B#2#
+SONNY#YoRobot#S#1#
+SPIRIT#WallE#T#3#
+ASIMO#C3-PO#A#3#
+--ASIMO#R2-D2#D#3#

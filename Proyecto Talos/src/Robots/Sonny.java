@@ -11,7 +11,7 @@ public class Sonny extends Robot{
 		super("sonny",'\0', 0, 0);
 	}
 	
-	public Sonny(char marca, int turno, int sala_actual){
-		super("sonny", marca, turno, sala_actual);
+	public Sonny(String nombre, char marca, int turno, int sala_actual){
+		super(nombre, marca, turno, sala_actual);
 	}
 }

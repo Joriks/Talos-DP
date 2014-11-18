@@ -11,7 +11,7 @@ public class Bender extends Robot{
 		super("bender",'\0', 0, 0);
 	}
 	
-	public Bender(char marca, int turno, int sala_actual){
-		super("bender", marca, turno, sala_actual);
+	public Bender(String nombre, char marca, int turno, int sala_actual){
+		super(nombre, marca, turno, sala_actual);
 	}
 }
