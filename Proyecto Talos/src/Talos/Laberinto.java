@@ -3,12 +3,7 @@ package Talos;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import Robots.Asimo;
-import Robots.Bender;
-import Robots.Direccion;
 import Robots.Robot;
-import Robots.Sonny;
-import Robots.Spirit;
 
 /**
  * Clase Laberinto, guarda las salas del mapa y ejecuta la simulacion
@@ -161,51 +156,5 @@ public class Laberinto {
 		Puerta puerta = sala.obtenerPuerta();
 		return "(turno:" + turno_actual + ")\n" + "(laberinto:" + sala_puerta + 
 				")\n" + puerta.toString();
-	}
-	
-	public static void main(String[] args) {
-		
-		int dimX = 6, dimY = 6;
-		int sala_puerta = (dimX*dimY)-1;
-		int altura_arbol = 5;
-		int[] id_salas_llaves = {3,4,6,8,9,10,11,12,13};
-		int[] llaves_sala = {0,1,1,2,3,3,4,5,5,6,7,7,8,9,9,10,11,11,12,13,13,14
-				,15,15,16,17,17,18,19,19,20,21,21,22,23,23,24,25,25,26,27,27,28
-				,29,29};
-		int[] combinacion = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
-		
-		Laberinto l = new Laberinto(sala_puerta, dimX, dimY, altura_arbol);
-		
-		Robot sonny = new Sonny('S',0,0);
-		Robot asimo = new Asimo('A',0,35);
-		Robot bender = new Bender('B',0,0);
-		Robot spirit = new Spirit('T',0,30);
-		Robot sonnyn = new Sonny('N',0,0);
-		
-		Direccion[] ruta_bender = {Direccion.S, Direccion.S, Direccion.E, Direccion.E, Direccion.N, Direccion.E, Direccion.N, Direccion.E, Direccion.S,
-				 Direccion.E, Direccion.S, Direccion.S, Direccion.O, Direccion.S, Direccion.E, Direccion.E};
-		Direccion[] ruta_sonny = {Direccion.E, Direccion.S, Direccion.S, Direccion.S, Direccion.O, Direccion.S, Direccion.E, Direccion.E, Direccion.N,
-				 Direccion.E, Direccion.S, Direccion.S, Direccion.E, Direccion.E};
-		Direccion[] ruta_asimo = {Direccion.N, Direccion.N, Direccion.O, Direccion.N, Direccion.N, Direccion.O, Direccion.S, Direccion.O,
-				 Direccion.O, Direccion.N, Direccion.N, Direccion.O, Direccion.S, Direccion.S, Direccion.S, Direccion.S, Direccion.S,
-				 Direccion.E, Direccion.E, Direccion.E, Direccion.E, Direccion.E};
-		Direccion[] ruta_spirit = {Direccion.N, Direccion.N, Direccion.N, Direccion.E, Direccion.S, Direccion.E, Direccion.N, Direccion.N,
-				 Direccion.E, Direccion.N, Direccion.E, Direccion.E, Direccion.S, Direccion.S, Direccion.S, Direccion.S, Direccion.S};
-		
-		sonny.asignarRuta(ruta_sonny);
-		asimo.asignarRuta(ruta_asimo);
-		bender.asignarRuta(ruta_bender);
-		spirit.asignarRuta(ruta_spirit);
-		sonnyn.asignarRuta(ruta_sonny);
-		
-		l.meterRobot(sonny);
-		l.meterRobot(asimo);
-		l.meterRobot(bender);
-		l.meterRobot(spirit);
-		l.meterRobot(sonnyn);
-		
-		l.distribuirLlaves(id_salas_llaves, llaves_sala);
-		l.configurarPuerta(combinacion);
-		l.simular();
 	}
 }

@@ -1,6 +1,8 @@
 package Robots;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
 
 import Talos.Estados;
@@ -59,6 +61,7 @@ public abstract class Robot {
 	public void asignarRuta(Direccion[] direcciones){
 		for (Direccion movimiento : direcciones)
 			ruta.addLast(movimiento);
+//		ruta.addAll(Arrays.asList(direcciones));//se puede cambiar por esto
 	}
 
 	/**
@@ -181,6 +184,7 @@ public abstract class Robot {
 	@Override
 	public String toString() {
 		return "(" + nombre + ":" + marca + ":" + sala_actual + ":" + turno +
-				 ":" + llaves.toString() + ")";
+				 ":" + llaves.toString().replace(", ", " ").replace("[", "")
+				 .replace("]", "") + ")";
 	}
 }
