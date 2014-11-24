@@ -1,15 +1,13 @@
 package TestJUnit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import Robots.Asimo;
-import Robots.Bender;
 import Robots.Robot;
-import Robots.Sonny;
 import Talos.Laberinto;
-import Talos.Llave;
 import Talos.Sala;
 
 public class LaberintoTest {
@@ -51,8 +49,8 @@ public class LaberintoTest {
 	@Test
 	public void testRobots() {
 		Laberinto l = new Laberinto(29,5,6,3);
-		Robot a = new Asimo('A', 0, 0);
-		Robot a2 = new Asimo('A', 0, 0);
+		Robot a = new Asimo("Asimo1", 'A', 0, 0);
+		Robot a2 = new Asimo("Asimo2", 'A', 0, 0);
 		Sala s = new Sala(0);
 		Robot r = new Asimo();
 		
@@ -78,9 +76,6 @@ public class LaberintoTest {
 	
 	@Test
 	public void test() {
-		testPuerta();
-		testLlaves();
-		testRobots();
 	}
 
 }

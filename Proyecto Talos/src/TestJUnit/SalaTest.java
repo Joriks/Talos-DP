@@ -66,9 +66,6 @@ public class SalaTest {
 
 	@Test
 	public void test() {
-		testLlavesSala();
-		testPuertaSala();
-		testRobotsSala();
 	}
 
 }

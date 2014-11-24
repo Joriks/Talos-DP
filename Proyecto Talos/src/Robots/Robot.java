@@ -1,8 +1,6 @@
 package Robots;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Deque;
 
 import Talos.Estados;
