@@ -1,16 +1,50 @@
 package Talos;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 
 import Cargador.Cargador;
 import Cargador.FicheroCarga;
+import Registro.MultiOutputStream;
 
+/**
+ * Clase LabSIM, Clase principal del proyecto que se encarga de iniciar todas
+ * las instancias del laberinto.
+ * @version 0.1 18/11/2014
+ * @author Grupo Talos { Jorge Bote Albalá, Juan Jose Ramón Rodríguez }
+ */
 public class LabSIM {
+	
+	public static void setOutputStream(String file_out, String file_err){
+		try
+		{
+			FileOutputStream fout= new FileOutputStream(file_out);
+			FileOutputStream ferr= new FileOutputStream(file_err);
+			
+			MultiOutputStream multiOut= new MultiOutputStream(System.out, fout);
+			MultiOutputStream multiErr= new MultiOutputStream(System.err, ferr);
+			
+			PrintStream stdout= new PrintStream(multiOut);
+			PrintStream stderr= new PrintStream(multiErr);
+			
+			System.setOut(stdout);
+			System.setErr(stderr);
+		}
+		catch (FileNotFoundException ex)
+		{
+			System.err.println("Error al crear los ficheros de log");
+		}
+	}
+	
 	public static void main(String[] args) {
 		/**  
 		instancia asociada al fichero de entrada inicio.txt
 		*/
+		
+		LabSIM.setOutputStream("registro.log", "error.log");
+		
 		Cargador cargador = new Cargador();
 		try {
 			/**  
