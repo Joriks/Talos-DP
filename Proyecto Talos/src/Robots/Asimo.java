@@ -69,7 +69,6 @@ public class Asimo extends Robot{
 			if(sala_actual%2==0)
 				sala.meterLlave(llaves.pop());
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 	}
 }
