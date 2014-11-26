@@ -1,5 +1,7 @@
 package Robots;
 
+import Excepciones.RobotException;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -43,10 +45,14 @@ public abstract class Robot {
 		ruta = new ArrayDeque<Direccion>();
 	}
 	
-	public Robot(String nombre, char marca, int turno, int sala_actual) {
+	public Robot(String nombre, char marca, int turno, int sala_actual) throws RobotException{
 		this.nombre = nombre;
 		this.marca = marca;
+		if(turno < 0)
+			throw new RobotException("Configuracion");
 		this.turno = turno;
+		if(sala_actual < 0)
+			throw new RobotException("Configuracion");
 		this.sala_actual = sala_actual;
 		llaves = new ArrayDeque<Llave>();
 		ruta = new ArrayDeque<Direccion>();
