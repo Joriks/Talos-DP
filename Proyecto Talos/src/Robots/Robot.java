@@ -113,10 +113,9 @@ public abstract class Robot {
 	protected void interactuarPuerta(Puerta puerta){
 		if(puerta != null)
 			try {
-				System.out.println("Probada llave" + llaves.peekLast().toString());
+				System.out.println("Probada llave " + llaves.peekFirst().toString());
 				puerta.probarLlave(llaves.pop());
 			} catch (Exception e) {
-				// TODO: handle exception
 			}
 	}
 
@@ -128,7 +127,7 @@ public abstract class Robot {
 	 */
 	protected void moverRobot(Laberinto laberinto){
 		Direccion movimiento = ruta.pollFirst();
-		int ancho = 6, alto = 6;
+		int ancho = laberinto.getAncho(), alto = laberinto.getAlto();
 		int sala_antigua = sala_actual;
 		switch (movimiento) {
 		case N:

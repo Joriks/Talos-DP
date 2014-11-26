@@ -33,6 +33,14 @@ public class Laberinto {
 		max_turnos = 50;
 	}
 	
+	public int getAncho() {
+		return ancho;
+	}
+
+	public int getAlto() {
+		return alto;
+	}
+	
 	/**
 	 * Distribuye un conjunto de llaves a las salas indicadas.
 	 * @param id_salas_llaves
@@ -114,13 +122,13 @@ public class Laberinto {
 		for(int i = 0;i<alto;i++){
 			System.out.print("|");
 			for(int j = 0;j<ancho;j++){
-				Sala s = salas.get(alto*i+j);
+				Sala s = salas.get(ancho*i+j);
 				System.out.print(s.robotsEnSala() + "|");
 			}
 			System.out.println("");
 		}
 	}
-	
+
 	/**
 	 * Comprueba si una sala dada tiene puerta.
 	 * @param id_sala
