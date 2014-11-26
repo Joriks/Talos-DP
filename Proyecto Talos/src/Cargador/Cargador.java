@@ -2,6 +2,7 @@ package Cargador;
 
 import java.util.List;
 
+import Excepciones.RobotException;
 import Robots.Asimo;
 import Robots.Bender;
 import Robots.Direccion;
@@ -136,10 +137,16 @@ public class Cargador {
 					Direccion.E, Direccion.S, Direccion.E, Direccion.S,
 					Direccion.S, Direccion.O,Direccion.S, Direccion.E,
 					Direccion.E};
-			Robot robot = new Bender(vCampos.get(1),vCampos.get(2).charAt(0),
-					Integer.valueOf(vCampos.get(3)), 0);
-			robot.asignarRuta(ruta);
-			lab.meterRobot(robot);
+			Robot robot;
+			try {
+				robot = new Bender(vCampos.get(1),vCampos.get(2).charAt(0),
+						Integer.valueOf(vCampos.get(3)), 0);
+				robot.asignarRuta(ruta);
+				lab.meterRobot(robot);
+			} catch (RobotException e){
+				e.configuracionMal(vCampos, 0);
+			}
+
 //		    System.out.println("Creado Bender: " + robot.toString() + "\n");
 		}
 		else
@@ -157,10 +164,16 @@ public class Cargador {
 					Direccion.S, Direccion.O, Direccion.S, Direccion.E,
 					Direccion.E, Direccion.N, Direccion.E, Direccion.S,
 					Direccion.S, Direccion.E, Direccion.E};
-			Robot robot = new Sonny(vCampos.get(1),vCampos.get(2).charAt(0),
-					Integer.valueOf(vCampos.get(3)), 0);
-			robot.asignarRuta(ruta);
-			lab.meterRobot(robot);
+			Robot robot;
+			try {
+				robot = new Sonny(vCampos.get(1),vCampos.get(2).charAt(0),
+						Integer.valueOf(vCampos.get(3)), 0);
+				robot.asignarRuta(ruta);
+				lab.meterRobot(robot);
+			} catch (RobotException e){
+				e.configuracionMal(vCampos, 0);
+			}
+			
 //		    System.out.println("Creado Sonny: " + robot.toString() + "\n");
 		}
 		else
@@ -179,10 +192,16 @@ public class Cargador {
 					Direccion.N, Direccion.E, Direccion.N, Direccion.E,
 					Direccion.E, Direccion.S, Direccion.S, Direccion.S,
 					Direccion.S, Direccion.S};
-			Robot robot = new Spirit(vCampos.get(1),vCampos.get(2).charAt(0),
-					Integer.valueOf(vCampos.get(3)), ancho*(alto-1));
-			robot.asignarRuta(ruta);
-			lab.meterRobot(robot);
+			Robot robot;
+			try {
+				robot = new Spirit(vCampos.get(1),vCampos.get(2).charAt(0),
+						Integer.valueOf(vCampos.get(3)), ancho*(alto-1));
+				robot.asignarRuta(ruta);
+				lab.meterRobot(robot);
+			} catch (RobotException e){
+				e.configuracionMal(vCampos, ancho*(alto-1));
+			}
+			
 //		    System.out.println("Creado Spirit: " + robot.toString() + "\n");
 		}
 		else
@@ -202,10 +221,16 @@ public class Cargador {
 					Direccion.O, Direccion.S, Direccion.S, Direccion.S,
 					Direccion.S, Direccion.S, Direccion.E, Direccion.E,
 					Direccion.E, Direccion.E, Direccion.E};
-			Robot robot = new Asimo(vCampos.get(1),vCampos.get(2).charAt(0),
-					Integer.valueOf(vCampos.get(3)), (ancho*alto)-1);
-			robot.asignarRuta(ruta);
-			lab.meterRobot(robot);
+			Robot robot;
+			try {
+				robot = new Asimo(vCampos.get(1),vCampos.get(2).charAt(0),
+						Integer.valueOf(vCampos.get(3)), (ancho*alto)-1);
+				robot.asignarRuta(ruta);
+				lab.meterRobot(robot);
+			} catch (RobotException e){
+				e.configuracionMal(vCampos, (ancho*alto)-1);
+			}
+			
 //		    System.out.println("Creado Asimo: " + robot.toString() + "\n");
 		}
 		else

@@ -5,6 +5,8 @@ import Talos.Llave;
 import Talos.Puerta;
 import Talos.Sala;
 
+import Excepciones.RobotException;
+
 /**
  * Clase Asimo, hereda de la clase robot.
  * @version 0.2 30/10/2014
@@ -12,14 +14,14 @@ import Talos.Sala;
  */
 public class Asimo extends Robot{
 
-	public Asimo() {
+	public Asimo() throws RobotException {
 		super("asimo",'\0', 0, 0);
 		int[] comb = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
 		for(int id_llave : comb)
 			llaves.add(new Llave(id_llave));
 	}
 	
-	public Asimo(String nombre, char marca, int turno, int sala_actual){
+	public Asimo(String nombre, char marca, int turno, int sala_actual) throws RobotException{
 		super(nombre, marca, turno, sala_actual);
 		int[] comb = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
 		for(int id_llave : comb)
