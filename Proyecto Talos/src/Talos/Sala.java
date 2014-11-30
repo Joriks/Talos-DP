@@ -96,11 +96,11 @@ public class Sala {
 	 * @param turno_actual Información sobre el turno actual en la simulación
 	 * Complejidad: O(n log n)
 	 */
-	public void simularTurno(Laberinto laberinto, int turno_actual){
+	public void simularTurno(int turno_actual){
 		//Optimizar con un contador o dejar con el copyonwirte
 		CopyOnWriteArrayList<Robot> robots = new CopyOnWriteArrayList<Robot>(robots_sala);
 		for(Robot robot : robots)
-			robot.simularTurno(laberinto, turno_actual);
+			robot.simularTurno(turno_actual);
 	}
 	
 	public String robotsEnSala(){

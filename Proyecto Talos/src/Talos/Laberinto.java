@@ -16,21 +16,26 @@ public class Laberinto {
 	private int alto;
 	private int altura_arbol;
 	private int sala_puerta;
+	private int sala_ganadores;
 	private HashMap<Integer, Sala> salas;
 	private int max_turnos;
 	private int turno_actual;
+	private static Laberinto instancia;
 	
-	public Laberinto(int sala_puerta,int dimX,int dimY,int altura_arbol){
-		ancho = dimX;
-		alto = dimY;
-		this.altura_arbol = altura_arbol;
-		this.sala_puerta = sala_puerta;
+	private Laberinto(){
+		ancho = 0;
+		alto = 0;
+		altura_arbol = 0;
+		sala_puerta = 0;
+		sala_ganadores = 1111;
 		salas = new HashMap<Integer, Sala>();
-		for(int i=0; i<dimX*dimY; i++){
-			salas.put(i, new Sala(i));
-		}
-		salas.put(1111, new Sala(1111));
-		max_turnos = 50;
+		max_turnos = 0;
+	}
+	
+	public static Laberinto getInstancia(){
+		if(instancia == null)
+			instancia = new Laberinto();
+		return instancia;
 	}
 	
 	public int getAncho() {
@@ -39,6 +44,20 @@ public class Laberinto {
 
 	public int getAlto() {
 		return alto;
+	}
+	
+	public void configurarLaberinto(int sala_puerta, int dimX, int dimY, 
+			int altura_arbol){
+		ancho = dimX;
+		alto = dimY;
+		this.altura_arbol = altura_arbol;
+		this.sala_puerta = sala_puerta;
+		sala_ganadores = 1111;
+		for(int i=0; i<dimX*dimY; i++){
+			salas.put(i, new Sala(i));
+		}
+		salas.put(sala_ganadores, new Sala(sala_ganadores));
+		max_turnos = 50;
 	}
 	
 	/**
@@ -78,6 +97,8 @@ public class Laberinto {
 	 * @param id_sala_nueva
 	 */
 	public void moverRobot(int id_sala_antigua, int id_sala_nueva){
+		//TODO cambiar esto, implementar un metodo en laberinto que obtenga una
+		//sala y asi meter el robot
 		Sala sala_antigua = salas.get(id_sala_antigua);
 		Robot robot = sala_antigua.sacarRobot();
 		Sala sala_nueva = salas.get(id_sala_nueva);
@@ -97,7 +118,7 @@ public class Laberinto {
 			turno_actual++;
 		}
 		if(p.estadoPuerta() == Estados.Abierta)
-			System.out.println(salas.get(1111).stringGanadores());
+			System.out.println(salas.get(sala_ganadores).stringGanadores());
 	}
 	
 	/**
@@ -106,7 +127,7 @@ public class Laberinto {
 	 */
 	private void simularTurno(int turno){
 		for(Entry<Integer, Sala> par_sala : salas.entrySet()){
-			par_sala.getValue().simularTurno(this,turno);
+			par_sala.getValue().simularTurno(turno);
 		}
 		pintarLaberinto();
 	}

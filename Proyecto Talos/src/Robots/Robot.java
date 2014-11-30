@@ -92,21 +92,38 @@ public abstract class Robot {
 	 * Complejidad: O(log n)
 	 * @param laberinto 
 	 */
-	public void simularTurno(Laberinto laberinto, int turno_actual){
+	public void simularTurno(int turno_actual){
+		//TODO CAMBIAR por un hook y ese hook implementarlo en las clases heredadas
 		if(this.turno == turno_actual){
-			if(laberinto.tienePuerta(sala_actual)){
+			Laberinto laberinto = Laberinto.getInstancia();
+			if(laberinto.tienePuerta(sala_actual)){//TODO esto modificarlo, 
+				//para que sea la sala la que obtiene una llave y la prueba de llave
+				//en su puerta "si tiene" no como ahora.
 				Puerta p = laberinto.obtenerPuerta(sala_actual);
 				interactuarPuerta(p);
 				if(p.estadoPuerta() == Estados.Abierta){
-					laberinto.moverRobot(sala_actual, 1111);
-					sala_actual = 1111;
+					laberinto.moverRobot(sala_actual, 1111);//TODO El robot se debe mover el
+					//no que lo mueva el laberinto
+					sala_actual = 1111;//cambiar a sala_ganadores
 				}
 			}
 			else
-				moverRobot(laberinto);
-			interactuarLlave(laberinto.obtenerSala(sala_actual));
+				moverRobot();
+			interactuarLlave();
 			incrementarTurno();
+			llaves.isEmpty();
 		}
+		
+		//meter strategy con simular y los interactuar
+		
+		/*El Simular turno debe quedar así
+		 * if(turno actual){
+		 *	 	interactuarPuerta();
+		 * 		moverRobot();
+		 * 		interactuarLlave()
+		 * 		incrementarTurno()
+		 * }
+		 */
 	}
 
 	/**
@@ -118,7 +135,7 @@ public abstract class Robot {
 	 */
 	protected void interactuarPuerta(Puerta puerta){
 		if(puerta != null)
-			try {
+			try {//TODO cambiar por una compbrobación de si hay llaves, mejor en 
 				System.out.println("Probada llave " + llaves.peekFirst().toString());
 				puerta.probarLlave(llaves.pop());
 			} catch (Exception e) {
@@ -131,10 +148,12 @@ public abstract class Robot {
 	 * POST:
 	 * Complejidad: O(1)
 	 */
-	protected void moverRobot(Laberinto laberinto){
+	protected void moverRobot(){
 		Direccion movimiento = ruta.pollFirst();
+		Laberinto laberinto = Laberinto.getInstancia();
 		int ancho = laberinto.getAncho(), alto = laberinto.getAlto();
 		int sala_antigua = sala_actual;
+		
 		switch (movimiento) {
 		case N:
 			if(sala_actual-ancho > 0)
@@ -168,8 +187,10 @@ public abstract class Robot {
 	 * POST:
 	 * Complejidad: O(1).
 	 */
-	protected void interactuarLlave(Sala sala){
+	protected void interactuarLlave(){
 		Llave llave;
+		Laberinto laberinto = Laberinto.getInstancia();
+		Sala sala = laberinto.obtenerSala(sala_actual);
 		if(sala != null && (llave = sala.sacarLlave()) != null)
 			llaves.push(llave);
 	}

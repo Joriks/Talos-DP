@@ -115,7 +115,8 @@ public class Cargador {
 	    if(numCampos == 5){
 	    	ancho = Integer.valueOf(vCampos.get(1));
 	    	alto = Integer.valueOf(vCampos.get(2));
-	    	lab = new Laberinto(Integer.valueOf(vCampos.get(3)), ancho, alto,
+	    	lab = Laberinto.getInstancia();
+	    	lab.configurarLaberinto(Integer.valueOf(vCampos.get(3)), ancho, alto,
 	    			Integer.valueOf(vCampos.get(4)));
 //	    	System.out.println("Creado laberinto: Ancho:" + ancho + 
 //	    			" Alto:" + alto + " Salida:" + vCampos.get(3) + 
@@ -235,9 +236,5 @@ public class Cargador {
 		}
 		else
 			System.err.println("Error en el número de campos del robot Asimo");
-	}
-	
-	public Laberinto obtenerLaberino(){
-		return lab;
 	}
 }
