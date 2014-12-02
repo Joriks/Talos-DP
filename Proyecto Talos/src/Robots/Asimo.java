@@ -28,22 +28,9 @@ public class Asimo extends Robot{
 			llaves.add(new Llave(id_llave));
 	}
 	
-	/**
-	 * Simula la ejecución de un turno del robot
-	 * PRE:
-	 * POST:
-	 * Complejidad: O(log n)
-	 * @param laberinto 
-	 */
-	public void simularTurno(int turno_actual){
-		if(this.turno == turno_actual){
-			Laberinto laberinto = Laberinto.getInstancia();
-			if(laberinto.tienePuerta(sala_actual))
-				interactuarPuerta(laberinto.obtenerPuerta(sala_actual));
-			moverRobot();
-			interactuarLlave();
-			incrementarTurno();
-		}
+	@Override
+	protected boolean puedeMover() {
+		return true;
 	}
 	
 	/**
@@ -54,9 +41,13 @@ public class Asimo extends Robot{
 	 * Complejidad: O(log n)
 	 */
 	@Override
-	protected void interactuarPuerta(Puerta puerta) {
-		System.out.println(nombre + ":" + marca + ":" + "Cierro puerta");
-		puerta.cerrarPuerta();
+	protected void interactuarPuerta() {
+		Laberinto laberinto = Laberinto.getInstancia();
+		Puerta puerta = laberinto.obtenerPuerta(sala_actual);
+		if(puerta != null){
+			System.out.println(nombre + ":" + marca + ":" + "Cierro puerta");
+			puerta.cerrarPuerta();
+		}
 	}
 
 	/**

@@ -16,7 +16,7 @@ public class Laberinto {
 	private int alto;
 	private int altura_arbol;
 	private int sala_puerta;
-	private int sala_ganadores;
+	public static final int sala_ganadores = 1111;
 	private HashMap<Integer, Sala> salas;
 	private int max_turnos;
 	private int turno_actual;
@@ -27,7 +27,6 @@ public class Laberinto {
 		alto = 0;
 		altura_arbol = 0;
 		sala_puerta = 0;
-		sala_ganadores = 1111;
 		salas = new HashMap<Integer, Sala>();
 		max_turnos = 0;
 	}
@@ -52,7 +51,6 @@ public class Laberinto {
 		alto = dimY;
 		this.altura_arbol = altura_arbol;
 		this.sala_puerta = sala_puerta;
-		sala_ganadores = 1111;
 		for(int i=0; i<dimX*dimY; i++){
 			salas.put(i, new Sala(i));
 		}

@@ -1,11 +1,10 @@
 package Robots;
 
-import Excepciones.RobotException;
-
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import Talos.Estados;
+import Excepciones.RobotException;
+
 import Talos.Laberinto;
 import Talos.Llave;
 import Talos.Puerta;
@@ -93,28 +92,38 @@ public abstract class Robot {
 	 * @param laberinto 
 	 */
 	public void simularTurno(int turno_actual){
-		//TODO CAMBIAR por un hook y ese hook implementarlo en las clases heredadas
 		if(this.turno == turno_actual){
-			Laberinto laberinto = Laberinto.getInstancia();
-			if(laberinto.tienePuerta(sala_actual)){//TODO esto modificarlo, 
-				//para que sea la sala la que obtiene una llave y la prueba de llave
-				//en su puerta "si tiene" no como ahora.
-				Puerta p = laberinto.obtenerPuerta(sala_actual);
-				interactuarPuerta(p);
-				if(p.estadoPuerta() == Estados.Abierta){
-					laberinto.moverRobot(sala_actual, 1111);//TODO El robot se debe mover el
-					//no que lo mueva el laberinto
-					sala_actual = 1111;//cambiar a sala_ganadores
-				}
-			}
-			else
+			interactuarPuerta();
+			if(puedeMover())
 				moverRobot();
 			interactuarLlave();
 			incrementarTurno();
-			llaves.isEmpty();
 		}
 		
-		//meter strategy con simular y los interactuar
+		
+		
+		//TODO CAMBIAR por un hook y ese hook implementarlo en las clases heredadas
+//		if(this.turno == turno_actual){
+//			Laberinto laberinto = Laberinto.getInstancia();
+//			if(laberinto.tienePuerta(sala_actual)){//TODO esto modificarlo, 
+				//para que sea la sala la que obtiene una llave y la prueba de llave
+				//en su puerta "si tiene" no como ahora.
+//				Puerta p = laberinto.obtenerPuerta(sala_actual);
+//				interactuarPuerta(p);
+//				if(p.estadoPuerta() == Estados.Abierta){
+//					laberinto.moverRobot(sala_actual, Laberinto.sala_ganadores);//TODO El robot se debe mover el
+					//no que lo mueva el laberinto
+//					sala_actual = Laberinto.sala_ganadores;//cambiar a sala_ganadores
+//				}
+//			}
+//			else
+//				moverRobot();
+//			interactuarLlave();
+//			incrementarTurno();
+//			llaves.isEmpty();
+//		}
+		
+		//meter template method con simular y los interactuar
 		
 		/*El Simular turno debe quedar así
 		 * if(turno actual){
@@ -133,7 +142,9 @@ public abstract class Robot {
 	 * POST:
 	 * Complejidad: O(log n)
 	 */
-	protected void interactuarPuerta(Puerta puerta){
+	protected void interactuarPuerta(){
+		Laberinto laberinto = Laberinto.getInstancia();
+		Puerta puerta = laberinto.obtenerPuerta(sala_actual);
 		if(puerta != null)
 			try {//TODO cambiar por una compbrobación de si hay llaves, mejor en 
 				System.out.println("Probada llave " + llaves.peekFirst().toString());
@@ -142,6 +153,13 @@ public abstract class Robot {
 			}
 	}
 
+	protected boolean puedeMover() {
+		Laberinto laberinto = Laberinto.getInstancia();
+		if(laberinto.tienePuerta(sala_actual))
+			return false;
+		return true;
+	}
+	
 	/**
 	 * Mueve el robot a la sala designada por el movimiento obtenido desde la ruta
 	 * PRE:
