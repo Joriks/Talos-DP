@@ -1,10 +1,11 @@
 package Robots;
 
+import Rutas.GenerarRutaDerecha;
+import Rutas.GenerarRutaMinima;
 import Talos.Laberinto;
 import Talos.Llave;
 import Talos.Puerta;
 import Talos.Sala;
-
 import Excepciones.RobotException;
 
 /**
@@ -19,6 +20,8 @@ public class Asimo extends Robot{
 		int[] comb = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
 		for(int id_llave : comb)
 			llaves.add(new Llave(id_llave));
+		generar_ruta = new GenerarRutaMinima();
+		ruta = generar_ruta.generarRuta();
 	}
 	
 	public Asimo(String nombre, char marca, int turno, int sala_actual) throws RobotException{
@@ -26,6 +29,8 @@ public class Asimo extends Robot{
 		int[] comb = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
 		for(int id_llave : comb)
 			llaves.add(new Llave(id_llave));
+		generar_ruta = new GenerarRutaMinima();
+		ruta = generar_ruta.generarRuta();
 	}
 	
 	@Override

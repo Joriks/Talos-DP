@@ -1,10 +1,11 @@
 package Robots;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 
 import Excepciones.RobotException;
-
+import Rutas.GeneradorRutas;
 import Talos.Laberinto;
 import Talos.Llave;
 import Talos.Puerta;
@@ -32,9 +33,12 @@ public abstract class Robot {
 	/** Conjunto de llaves que tiene el robot */
 	protected Deque<Llave> llaves;
 	
+	/** Generador de la ruta para el robot */
+	protected GeneradorRutas generar_ruta;
+	
 	/** Conjunto de movimientos que realiza el robot */
 	protected Deque<Direccion> ruta;
-	
+		
 	public Robot() {
 		nombre = "Robot";
 		marca = 'R';
@@ -62,9 +66,7 @@ public abstract class Robot {
 	 * @param direcciones
 	 */
 	public void asignarRuta(Direccion[] direcciones){
-		for (Direccion movimiento : direcciones)
-			ruta.addLast(movimiento);
-//		ruta.addAll(Arrays.asList(direcciones));//se puede cambiar por esto
+		ruta.addAll(Arrays.asList(direcciones));
 	}
 
 	/**

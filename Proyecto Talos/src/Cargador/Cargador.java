@@ -133,16 +133,10 @@ public class Cargador {
 	 */
 	private void crearBender(int numCampos, List<String> vCampos){
 		if(numCampos == 4){
-			Direccion[] ruta = {Direccion.S, Direccion.S, Direccion.E, 
-					Direccion.E, Direccion.N, Direccion.E, Direccion.N,
-					Direccion.E, Direccion.S, Direccion.E, Direccion.S,
-					Direccion.S, Direccion.O,Direccion.S, Direccion.E,
-					Direccion.E};
 			Robot robot;
 			try {
 				robot = new Bender(vCampos.get(1),vCampos.get(2).charAt(0),
 						Integer.valueOf(vCampos.get(3)), 0);
-				robot.asignarRuta(ruta);
 				lab.meterRobot(robot);
 			} catch (RobotException e){
 				e.configuracionMal(vCampos, 0);
@@ -161,15 +155,10 @@ public class Cargador {
 	 */
 	private void crearSonny(int numCampos, List<String> vCampos){
 		if(numCampos == 4){
-			Direccion[] ruta = {Direccion.E, Direccion.S, Direccion.S,
-					Direccion.S, Direccion.O, Direccion.S, Direccion.E,
-					Direccion.E, Direccion.N, Direccion.E, Direccion.S,
-					Direccion.S, Direccion.E, Direccion.E};
 			Robot robot;
 			try {
 				robot = new Sonny(vCampos.get(1),vCampos.get(2).charAt(0),
 						Integer.valueOf(vCampos.get(3)), 0);
-				robot.asignarRuta(ruta);
 				lab.meterRobot(robot);
 			} catch (RobotException e){
 				e.configuracionMal(vCampos, 0);
@@ -188,16 +177,10 @@ public class Cargador {
 	 */
 	private void crearSpirit(int numCampos, List<String> vCampos){
 		if(numCampos == 4){
-			Direccion[] ruta = {Direccion.N, Direccion.N, Direccion.N,
-					Direccion.E, Direccion.S, Direccion.E, Direccion.N,
-					Direccion.N, Direccion.E, Direccion.N, Direccion.E,
-					Direccion.E, Direccion.S, Direccion.S, Direccion.S,
-					Direccion.S, Direccion.S};
 			Robot robot;
 			try {
 				robot = new Spirit(vCampos.get(1),vCampos.get(2).charAt(0),
 						Integer.valueOf(vCampos.get(3)), ancho*(alto-1));
-				robot.asignarRuta(ruta);
 				lab.meterRobot(robot);
 			} catch (RobotException e){
 				e.configuracionMal(vCampos, ancho*(alto-1));
@@ -216,17 +199,10 @@ public class Cargador {
 	 */
 	private void crearAsimo(int numCampos, List<String> vCampos){
 		if(numCampos == 4){
-			Direccion[] ruta = {Direccion.N, Direccion.N, Direccion.O,
-					Direccion.N, Direccion.N, Direccion.O, Direccion.S,
-					Direccion.O, Direccion.O, Direccion.N, Direccion.N,
-					Direccion.O, Direccion.S, Direccion.S, Direccion.S,
-					Direccion.S, Direccion.S, Direccion.E, Direccion.E,
-					Direccion.E, Direccion.E, Direccion.E};
 			Robot robot;
 			try {
 				robot = new Asimo(vCampos.get(1),vCampos.get(2).charAt(0),
 						Integer.valueOf(vCampos.get(3)), (ancho*alto)-1);
-				robot.asignarRuta(ruta);
 				lab.meterRobot(robot);
 			} catch (RobotException e){
 				e.configuracionMal(vCampos, (ancho*alto)-1);
