@@ -27,6 +27,12 @@ public class Sala {
 	/** Información de la puerta, si la tiene*/
 	private Puerta puerta;
 	
+	/**
+	 * Constructor parametrizado con un identificador de la clase Sala
+	 * PRE:
+	 * POST: Crea una sala con el identificador dado;
+	 * Complejidad: O(1);
+	 */
 	public Sala(int id){
 		id_sala = id;
 		llaves_sala = new LinkedList<Llave>();
@@ -34,6 +40,12 @@ public class Sala {
 		puerta = null;
 	}
 	
+	/**
+	 * Constructor parametrizado con un identificador de la clase Sala y la lista de las llaves.
+	 * PRE:
+	 * POST: Crea una sala con el identificador y las llaves dadas;
+	 * Complejidad: O(1);
+	 */
 	public Sala(int id, LinkedList<Llave> llaves_sala){
 		id_sala = id;
 		this.llaves_sala = llaves_sala;
@@ -41,12 +53,21 @@ public class Sala {
 		puerta = null;
 	}
 	
+	/**
+	 * Metodo para obtener la puerta de la sala.
+	 * PRE: La sala debe estar inicializada
+	 * POST: Si la sala tiene puerta la devuelve
+	 * @return Puerta
+	 * Complejidad: O(1)
+	 */
 	public Puerta obtenerPuerta(){
 		return puerta;
 	}
 	
 	/**
 	 * Metodo para configurar inicialmente la puerta de la sala.
+	 * PRE: La sala debe estar inicializada y los parámetros de configuración de puerta ser correctos.
+	 * POST: Se configura la puerta de la sala
 	 * @param combinacion Combinación con la que configurar la puerta
 	 * @param altura Altura del árbol con la que configurar la puerta
 	 * Complejidad: O(n)
@@ -57,6 +78,8 @@ public class Sala {
 	
 	/**
 	 * Metodo que saca y devuelve la primera llave a sacar
+	 * PRE: La sala debe estar inicializada
+	 * POST: Decrementa en uno el número de llaves y la devuelve
 	 * @return la llave que saca
 	 * Complejidad: O(1)
 	 */
@@ -66,6 +89,8 @@ public class Sala {
 	
 	/**
 	 * Metodo que introduce una llave en la sala 
+	 * PRE: La sala debe estar inicializada
+	 * POST: Añade una llave a la sala
 	 * @param llave Llave a meter en la sala
 	 * Complejidad: O(n)
 	 */
@@ -76,6 +101,8 @@ public class Sala {
 	
 	/**
 	 * Metodo que saca y devuelve el primer robot a salir de la sala
+	 * PRE: La sala debe estar inicializada
+	 * POST: Saca un robot
 	 * @return Robot El robot que sale
 	 * Complejidad: O(1)
 	 */
@@ -85,6 +112,8 @@ public class Sala {
 	
 	/**
 	 *  Metodo que introduce un robot en la sala
+	 * PRE: La sala debe estar inicializada y el robot ser correcto
+	 * POST: Introduce el robot
 	 *  Complejidad: O(1)
 	 */
 	public void meterRobot(Robot robot){
@@ -93,6 +122,8 @@ public class Sala {
 	
 	/**
 	 * Metodo para actualizar el turno de los robots de la sala.
+	 * PRE: La sala debe estar inicializada y el turno actual ser correcto, mayor o igual que cero
+	 * POST: Simula un turno en sala
 	 * @param turno_actual Información sobre el turno actual en la simulación
 	 * Complejidad: O(n log n)
 	 */
@@ -103,6 +134,13 @@ public class Sala {
 			robot.simularTurno(turno_actual);
 	}
 	
+	/**
+	 * Metodo que obtiene un string. Si solo hay un robot devuelve la marca, si hay varios devuelve el número de robots y un guión si no hay robots 
+	 * PRE: La sala debe estar inicializada
+	 * POST: Devuelve un string con las marca de un robot, el número de los robots en sala o un guión
+	 * @return String
+	 * Complejidad: O(1)
+	 */
 	public String robotsEnSala(){
 		if(robots_sala.size() == 1){
 			char marca = robots_sala.getFirst().obtenerMarca();
@@ -115,6 +153,13 @@ public class Sala {
 				return Integer.toString(robots_sala.size());
 	}
 	
+	/**
+	 * Metodo que devuelve el string de los robots ganadores
+	 * PRE: La sala debe estar inicializada
+	 * POST: 
+	 * @return String
+	 * Complejidad: O(1)
+	 */
 	public String stringGanadores(){
 		return "(robotsganadores)\n" + robots_sala.toString().replace(", ", "\n")
 				.replace("[", "").replace("]", "");
