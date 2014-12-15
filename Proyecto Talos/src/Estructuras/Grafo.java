@@ -338,5 +338,17 @@ public class Grafo {
       	}
           return sig;
       }
+
+      /**
+       * Metodo que devuelve el valor de la celda correspondiente en la matrid de coste de floyd
+       * @param origen
+       * @param destino
+       * @return
+       */
+  	public int floydC(int origen, int destino){
+  		if ((origen >= 0) && (origen < nodos.length) && (destino >= 0) && (destino < nodos.length))
+  			return this.floydC[origen][destino];
+  		return NOVALOR;
+  	}
 }
 

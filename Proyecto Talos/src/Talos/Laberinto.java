@@ -27,7 +27,8 @@ public class Laberinto {
 	/** Identificador de la sala donde está la puerta de salida del laberint o*/
 	private int sala_puerta;
 	
-	/** Identificador de la sala de victoria donde se almacenan los robots que consiguen salir del laberinto */
+	/** Identificador de la sala de victoria donde se almacenan los robots que 
+	 * consiguen salir del laberinto */
 	public static final int sala_ganadores = 1111;
 	
 	/** HashMap con la información de las salas del laberinto */
@@ -130,7 +131,6 @@ public class Laberinto {
 		LinkedList<Pared> listaparedes = new LinkedList<Pared>();
 		generarParedes(listaparedes);
 		tirarParedes(listaparedes);
-		generarAtajos();
 	}
 
 	/**
@@ -163,8 +163,8 @@ public class Laberinto {
 	private void tirarParedes(LinkedList<Pared> listaparedes){
 		while(!listaparedes.isEmpty()){
 			int num_pared = GenAleatorios.generarNumero(listaparedes.size());
-			System.out.println(GenAleatorios.getNumGenerados() + " " + 
-			listaparedes.size() + " " + num_pared);
+//			System.out.println(GenAleatorios.getNumGenerados() + " " + 
+//			listaparedes.size() + " " + num_pared);
 			Pared pared = listaparedes.get(num_pared);
 			listaparedes.remove(num_pared);
 			int sala_a = pared.getSalaA();
@@ -199,15 +199,52 @@ public class Laberinto {
 	 * POST:
 	 * Complejidad:
 	 */
-	private void generarAtajos() {
-		//TODO
+	void generarAtajos() {
+		int num_paredes_tirar = ancho*alto*5/100;
+		
+		caminos.floyd();
+		for(int i = 0; i<num_paredes_tirar;){
+			int sala = GenAleatorios.generarNumero(salas.size()-1);
+			boolean derrumbada_pared = false;
+//			System.out.println("Atajo Sala: "+sala);
+			if(derrumbarPared(sala, sala - ancho))
+				derrumbada_pared = true;
+			else
+				if(derrumbarPared(sala, sala + ancho) && !derrumbada_pared)
+					derrumbada_pared = true;
+				else
+					if((sala/ancho == (sala-1)/ancho) && derrumbarPared(sala, sala - 1) && !derrumbada_pared)
+						derrumbada_pared = true;
+					else
+						if((sala/ancho == (sala+1)/ancho) && derrumbarPared(sala, sala + 1) && !derrumbada_pared)
+							derrumbada_pared = true;
+			if(derrumbada_pared){
+				i++;
+				caminos.floyd();
+			}
+		}
+	}
+	
+	private boolean derrumbarPared(int sala, int sala_contigua) {
+		if(sala >= 0 && sala < (ancho * alto) && sala_contigua >= 0 && sala_contigua < (ancho * alto)){
+			if((!caminos.adyacente(sala, sala_contigua))){
+				if((caminos.floydC(sala,sala_contigua)) > 3){
+					caminos.nuevoArco(sala, sala_contigua, 1);
+					caminos.nuevoArco(sala_contigua, sala, 1);
+//					System.out.println("Pared Tirada: " + sala + "-" + sala_contigua);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	/**
 	 * Distribuye un conjunto de llaves a las salas indicadas.
 	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
 	 * POST: Las llaves indicadas son distribuidas en las salas que se indican
-	 * @param id_salas_llaves Array con los identificadores de salas en las que distribuir las llaves
+	 * @param id_salas_llaves Array con los identificadores de salas en las que
+	 * distribuir las llaves
 	 * @param llaves_sala Array de llaves a distribuir
 	 * Complejidad: O(n^2)
 	 */
@@ -245,7 +282,8 @@ public class Laberinto {
 	
 	/**
 	 * Mueve un robot de la sala antigua a la nueva.
-	 * PRE: El laberinto debe estar creado correctamente y los identificadores de las salas ser correctos
+	 * PRE: El laberinto debe estar creado correctamente y los identificadores
+	 * de las salas ser correctos
 	 * POST: Mueve el robot en el laberinto, de la sala antigua a la nueva
 	 * @param id_sala_antigua
 	 * @param id_sala_nueva
@@ -254,6 +292,7 @@ public class Laberinto {
 	public void moverRobot(int id_sala_antigua, int id_sala_nueva){
 		//TODO cambiar esto, implementar un metodo en laberinto que obtenga una
 		//sala y asi meter el robot
+		//Pasar el metodo a robot
 		Sala sala_antigua = salas.get(id_sala_antigua);
 		Robot robot = sala_antigua.sacarRobot();
 		Sala sala_nueva = salas.get(id_sala_nueva);
@@ -303,12 +342,32 @@ public class Laberinto {
 		System.out.println(toString());
 		for(int i = 0;i<ancho;i++)
 			System.out.print(" _");
+		
 		System.out.println("");
+		
 		for(int i = 0;i<alto;i++){
 			System.out.print("|");
 			for(int j = 0;j<ancho;j++){
 				Sala s = salas.get(ancho*i+j);
-				System.out.print(s.robotsEnSala() + "|");
+				int robots_sala = s.robotsEnSala();
+				String celda_sala = "";
+				switch (robots_sala) {
+				case 0:
+					if(caminos.adyacente(ancho*i+j, (ancho*i+j)+ancho))
+						celda_sala = " ";
+					else
+						celda_sala = "_";
+					break;
+				default:
+					celda_sala+=s.robotsSala();
+
+					break;
+				}
+				if(caminos.adyacente(ancho*i+j, ancho*i+j+1))
+					celda_sala+=" ";
+				else
+					celda_sala+="|";
+				System.out.print(celda_sala);
 			}
 			System.out.println("");
 		}
@@ -316,7 +375,8 @@ public class Laberinto {
 
 	/**
 	 * Comprueba si una sala dada tiene puerta.
-	 * PRE: El laberinto debe estar creado correctamente y el identificador de la sala a consultar ser correcto
+	 * PRE: El laberinto debe estar creado correctamente y el identificador
+	 * de la sala a consultar ser correcto
 	 * POST: Devuelve si la sala indicada tiene puerta o no tiene
 	 * @param id_sala
 	 * @return boolean True si tiene puerta y false en caso contrario
@@ -329,7 +389,8 @@ public class Laberinto {
 
 	/**
 	 * Obtiene la puerta de una sala dada si la tiene
-	 * PRE: El laberinto debe estar creado correctamente y el identificador de la sala a consultar ser correcto
+	 * PRE: El laberinto debe estar creado correctamente y el identificador
+	 * de la sala a consultar ser correcto
 	 * POST: Si la sala indicada tiene puerta la devuelve
 	 * @param id_sala
 	 * @return Puerta
@@ -342,7 +403,8 @@ public class Laberinto {
 
 	/**
 	 * Obtiene una sala dado su identificador.
-	 * PRE: El laberinto debe estar creado correctamente y el identificador de la sala a consultar ser correcto
+	 * PRE: El laberinto debe estar creado correctamente y el identificador
+	 * de la sala a consultar ser correcto
 	 * POST: Devuelve la sala con el identificador dado
 	 * @param id_sala
 	 * @return Sala

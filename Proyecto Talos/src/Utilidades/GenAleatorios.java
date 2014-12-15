@@ -55,12 +55,4 @@ public class GenAleatorios {
 	public static int getNumGenerados(){
 		return numGenerados;
 	}
-	
-	public static void main(String[] args) {
-		
-		for (int i=20; i>10; i--) {
-			System.out.println("Nœmero generado (entre 0 y " + i + "): " + GenAleatorios.generarNumero(i));
-		}
-		System.out.println("Nœmeros generados: " + GenAleatorios.getNumGenerados());
-	}	
 }

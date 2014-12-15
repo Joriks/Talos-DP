@@ -5,7 +5,6 @@ import java.util.List;
 import Excepciones.RobotException;
 import Robots.Asimo;
 import Robots.Bender;
-import Robots.Direccion;
 import Robots.Robot;
 import Robots.Sonny;
 import Robots.Spirit;
@@ -111,7 +110,8 @@ public class Cargador {
 	 *  @param numCampos nœmero de atributos que tendr‡ la instancia
 	 *  @param vCampos array que contiene los valores de cada atributo
 	 */
-	private void crearLab(int numCampos, List<String> vCampos){
+	private void crearLab(int numCampos, List<String> vCampos){//Antes de crear
+		//el laberino no se pueden añadir robots
 	    if(numCampos == 5){
 	    	ancho = Integer.valueOf(vCampos.get(1));
 	    	alto = Integer.valueOf(vCampos.get(2));

@@ -40,6 +40,7 @@ public class Sala {
 		id_sala = id;
 		llaves_sala = new LinkedList<Llave>();
 		robots_sala = new ArrayDeque<Robot>();
+		marca = id;
 		puerta = null;
 	}
 	
@@ -53,6 +54,7 @@ public class Sala {
 		id_sala = id;
 		this.llaves_sala = llaves_sala;
 		robots_sala = new ArrayDeque<Robot>();
+		marca = id;
 		puerta = null;
 	}
 	
@@ -83,7 +85,8 @@ public class Sala {
 	 * @return Puerta
 	 * Complejidad: O(1)
 	 */
-	public Puerta obtenerPuerta(){
+	public Puerta obtenerPuerta(){//Se puede cambiar por booleano y pasar la puerta
+		//por parametro
 		return puerta;
 	}
 	
@@ -158,22 +161,33 @@ public class Sala {
 	}
 	
 	/**
+	 * Metodo que devuelve el numero de robots en la sala.
+	 * PRE: La sala debe estar inicializada
+	 * POST: Devuelve un entero con el numero de robots;
+	 * @return String
+	 * Complejidad: O(1)
+	 */
+	public int robotsEnSala(){
+		return robots_sala.size();
+	}
+	
+	/**
 	 * Metodo que obtiene un string. Si solo hay un robot devuelve la marca, si hay varios devuelve el número de robots y un guión si no hay robots 
 	 * PRE: La sala debe estar inicializada
 	 * POST: Devuelve un string con las marca de un robot, el número de los robots en sala o un guión
 	 * @return String
 	 * Complejidad: O(1)
 	 */
-	public String robotsEnSala(){
-		if(robots_sala.size() == 1){
+	public String robotsSala(){
+		switch (robots_sala.size()) {
+		case 0:
+			return "0";
+		case 1:
 			char marca = robots_sala.getFirst().obtenerMarca();
 			return Character.toString(marca);
+		default:
+			return Integer.toString(robots_sala.size());
 		}
-		else
-			if(robots_sala.size() == 0)
-				return "_";
-			else
-				return Integer.toString(robots_sala.size());
 	}
 	
 	/**
