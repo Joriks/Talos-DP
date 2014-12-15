@@ -26,7 +26,7 @@ public class Laberinto {
 	
 	/** Identificador de la sala donde está la puerta de salida del laberint o*/
 	private int sala_puerta;
-	
+
 	/** Identificador de la sala de victoria donde se almacenan los robots que 
 	 * consiguen salir del laberinto */
 	public static final int sala_ganadores = 1111;
@@ -42,7 +42,7 @@ public class Laberinto {
 	
 	/** Turno actual de la simulación */
 	private int turno_actual;
-	
+
 	/** Laberinto siguiendo el patrón Singleton*/
 	private static Laberinto instancia;
 
@@ -131,6 +131,7 @@ public class Laberinto {
 		LinkedList<Pared> listaparedes = new LinkedList<Pared>();
 		generarParedes(listaparedes);
 		tirarParedes(listaparedes);
+		generarAtajos();
 	}
 
 	/**
@@ -199,7 +200,7 @@ public class Laberinto {
 	 * POST:
 	 * Complejidad:
 	 */
-	void generarAtajos() {
+	private void generarAtajos() {
 		int num_paredes_tirar = ancho*alto*5/100;
 		
 		caminos.floyd();
@@ -223,6 +224,7 @@ public class Laberinto {
 				caminos.floyd();
 			}
 		}
+		caminos.warshall();
 	}
 	
 	private boolean derrumbarPared(int sala, int sala_contigua) {
@@ -424,6 +426,10 @@ public class Laberinto {
 		Sala s = salas.get(sala_puerta);
 		Puerta p = s.obtenerPuerta();
 		return (p.estadoPuerta() == Estados.Abierta);
+	}
+	
+	public int obtenerSiguiente(int origen, int destino){
+		return caminos.siguiente(origen, destino);
 	}
 	
 	@Override

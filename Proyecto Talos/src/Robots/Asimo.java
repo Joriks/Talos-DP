@@ -1,12 +1,11 @@
 package Robots;
 
-import Rutas.GenerarRutaDerecha;
+import Excepciones.RobotException;
 import Rutas.GenerarRutaMinima;
 import Talos.Laberinto;
 import Talos.Llave;
 import Talos.Puerta;
 import Talos.Sala;
-import Excepciones.RobotException;
 
 /**
  * Clase Asimo, hereda de la clase robot.

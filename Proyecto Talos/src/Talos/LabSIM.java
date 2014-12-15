@@ -71,8 +71,6 @@ public class LabSIM {
 //		laberinto.distribuirLlaves(id_salas_llaves, llaves_sala);
 		laberinto.configurarPuerta(combinacion);
 		laberinto.pintarLaberinto();
-		laberinto.generarAtajos();
-		laberinto.pintarLaberinto();
 //		laberinto.simular();
 		
 //		System.out.close();
