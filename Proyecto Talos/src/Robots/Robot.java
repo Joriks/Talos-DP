@@ -99,40 +99,6 @@ public abstract class Robot {
 			interactuarLlave();
 			incrementarTurno();
 		}
-		
-		
-		
-		//TODO CAMBIAR por un hook y ese hook implementarlo en las clases heredadas
-//		if(this.turno == turno_actual){
-//			Laberinto laberinto = Laberinto.getInstancia();
-//			if(laberinto.tienePuerta(sala_actual)){//TODO esto modificarlo, 
-				//para que sea la sala la que obtiene una llave y la prueba de llave
-				//en su puerta "si tiene" no como ahora.
-//				Puerta p = laberinto.obtenerPuerta(sala_actual);
-//				interactuarPuerta(p);
-//				if(p.estadoPuerta() == Estados.Abierta){
-//					laberinto.moverRobot(sala_actual, Laberinto.sala_ganadores);//TODO El robot se debe mover el
-					//no que lo mueva el laberinto
-//					sala_actual = Laberinto.sala_ganadores;//cambiar a sala_ganadores
-//				}
-//			}
-//			else
-//				moverRobot();
-//			interactuarLlave();
-//			incrementarTurno();
-//			llaves.isEmpty();
-//		}
-		
-		//meter template method con simular y los interactuar
-		
-		/*El Simular turno debe quedar así
-		 * if(turno actual){
-		 *	 	interactuarPuerta();
-		 * 		moverRobot();
-		 * 		interactuarLlave()
-		 * 		incrementarTurno()
-		 * }
-		 */
 	}
 
 	/**
@@ -155,8 +121,11 @@ public abstract class Robot {
 
 	protected boolean puedeMover() {
 		Laberinto laberinto = Laberinto.getInstancia();
-		if(laberinto.tienePuerta(sala_actual))
+		if(laberinto.tienePuerta(sala_actual)){
+			if(laberinto.puertaAbierta())
+				return true;
 			return false;
+		}
 		return true;
 	}
 	
@@ -167,35 +136,39 @@ public abstract class Robot {
 	 * Complejidad: O(1)
 	 */
 	protected void moverRobot(){
-		Direccion movimiento = ruta.pollFirst();
 		Laberinto laberinto = Laberinto.getInstancia();
 		int ancho = laberinto.getAncho(), alto = laberinto.getAlto();
 		int sala_antigua = sala_actual;
 		
-		switch (movimiento) {
-		case N:
-			if(sala_actual-ancho > 0)
-				sala_actual -= ancho;
-			break;
-		case S:
-			if(sala_actual+ancho < ancho*alto)
-				sala_actual += ancho;
-			break;
-		case E:
-			if(sala_actual%ancho != ancho-1)
-				sala_actual++;
-			break;
-		case O:
-			if(sala_actual%ancho != 0)
-				sala_actual--;
-			break;
+		if(laberinto.puertaAbierta())
+			sala_actual = Laberinto.sala_ganadores;
+		else{
+			Direccion movimiento = ruta.pollFirst();
+			switch (movimiento) {
+			case N:
+				if(sala_actual-ancho > 0)
+					sala_actual -= ancho;
+				break;
+			case S:
+				if(sala_actual+ancho < ancho*alto)
+					sala_actual += ancho;
+				break;
+			case E:
+				if(sala_actual%ancho != ancho-1)
+					sala_actual++;
+				break;
+			case O:
+				if(sala_actual%ancho != 0)
+					sala_actual--;
+				break;
 
-		default:
-			System.err.println("Error de direccion");//Cambiar por DireccionException?
-			break;
+			default:
+				System.err.println("Error de direccion");//Cambiar por DireccionException?
+				break;
+			}
+			ruta.addLast(movimiento);
 		}
 		laberinto.moverRobot(sala_antigua, sala_actual);
-		ruta.addLast(movimiento);
 	}
 	
 	/**

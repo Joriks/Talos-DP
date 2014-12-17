@@ -1,6 +1,5 @@
 package Talos;
 
-import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,13 +38,6 @@ public class LabSIM {
 					+ " y " + file_err);
 		}
 	}
-	
-	public static void closeOutputStream(){
-		System.out.close();
-		System.err.close();
-		System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
-		System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err)));
-	}
 		
 	public static void main(String[] args) {
 		
@@ -81,6 +73,7 @@ public class LabSIM {
 		
 		laberinto.simular();
 		
-		closeOutputStream();
+		System.out.close();
+		System.err.close();
 	}
 }

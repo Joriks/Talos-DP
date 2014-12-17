@@ -184,4 +184,10 @@ public class Laberinto {
 		return "(turno:" + turno_actual + ")\n" + "(laberinto:" + sala_puerta + 
 				")\n" + puerta.toString();
 	}
+
+	public boolean puertaAbierta() {
+		Sala s = salas.get(sala_puerta);
+		Puerta p = s.obtenerPuerta();
+		return (p.estadoPuerta() == Estados.Abierta);
+	}
 }
