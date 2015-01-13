@@ -68,10 +68,10 @@ public class LabSIM {
 				,29,29};
 		int[] combinacion = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
 	
-//		laberinto.distribuirLlaves(id_salas_llaves, llaves_sala);
+		laberinto.distribuirLlaves(id_salas_llaves, llaves_sala);
 		laberinto.configurarPuerta(combinacion);
-		laberinto.pintarLaberinto();
-//		laberinto.simular();
+		laberinto.pintarMapa();
+		laberinto.simular();
 		
 //		System.out.close();
 //		System.err.close();

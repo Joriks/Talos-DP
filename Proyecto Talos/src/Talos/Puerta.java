@@ -82,7 +82,7 @@ public class Puerta {
 	public void cerrarPuerta() {
 		cerradura = new Arbol<Llave>(combinacion_secreta);
 		usadas = new Arbol<Llave>();
-		estado = Estados.Cerrada;
+		estado = Estados.cerrada;
 	}
 	
 	/**
@@ -97,14 +97,14 @@ public class Puerta {
 		if(!usadas.pertenece(llave)){
 			if(cerradura.pertenece(llave)){
 				cerradura.borrar(llave);
-				System.out.println("Llave: " + llave.getId() + " Correcta");
+//				System.out.println("Llave: " + llave.getId() + " Correcta");
 				usadas.insertar(llave);
 				if(condicionApertura())
 					abrirPuerta();
 				return true;
 			}
 			usadas.insertar(llave);
-			System.out.println("Llave: " + llave.getId() + " Incorrecta");
+//			System.out.println("Llave: " + llave.getId() + " Incorrecta");
 		}
 		else
 			System.out.println("ALARMA: Llave: " + llave.getId() + " ya probada");
@@ -127,8 +127,8 @@ public class Puerta {
 	 * y configurada.
 	 */
 	private void abrirPuerta() {
-		if(estado == Estados.Cerrada)
-			estado = Estados.Abierta;
+		if(estado == Estados.cerrada)
+			estado = Estados.abierta;
 	}
 	
 	public Estados estadoPuerta(){
@@ -137,6 +137,6 @@ public class Puerta {
 	
 	@Override
 	public String toString() {
-		return ("(Puerta:" + estado + ":" + altura_puerta + ":" + cerradura.toString()+":"+usadas.toString()+")");
+		return ("(puerta:" + estado + ":" + altura_puerta + ":" + cerradura.toString()+":"+usadas.toString()+")");
 	}
 }

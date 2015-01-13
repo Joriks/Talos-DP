@@ -6,5 +6,5 @@ package Talos;
  * @author Grupo Talos { Jorge Bote Albalá, Juan Jose Ramón Rodríguez }
  */
 public enum Estados {
-	NoConfigurada,Abierta,Cerrada
+	NoConfigurada,abierta,cerrada
 }
