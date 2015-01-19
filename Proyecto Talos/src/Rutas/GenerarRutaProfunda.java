@@ -25,6 +25,7 @@ public class GenerarRutaProfunda implements GeneradorRutas {
 		Deque<Direccion> ruta = new ArrayDeque<Direccion>();
 		ruta.addAll(Arrays.asList(direcciones));
 		return ruta;
+		}
 	}
 
-}
+

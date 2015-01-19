@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 
 import Estructuras.Grafo;
+import Robots.Direccion;
 import Robots.Robot;
 import Utilidades.GenAleatorios;
 
@@ -432,6 +433,10 @@ public class Laberinto {
 		return caminos.siguiente(origen, destino);
 	}
 	
+	public boolean obtenerSiAdyacente(int origen, int destino){
+		return caminos.adyacente(origen, destino);
+	}
+
 	@Override
 	public String toString() {
 		Sala sala = salas.get(sala_puerta);

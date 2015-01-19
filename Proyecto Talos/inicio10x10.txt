@@ -2,9 +2,9 @@
 LABERINTO#10#10#99#7#
 --Robots de la simulaci—n
 ASIMO#asimo1#A#1#
-BENDER#bender1#B#3#
+--BENDER#bender1#B#3#
 SPIRIT#spirit1#S#7#
-BENDER#bender2#N#4#
+--BENDER#bender2#N#4#
 SONNY#sonny1#Y#5#
 ASIMO#asimo2#O#2#
 SPIRIT#spirit2#T#5#

@@ -41,7 +41,7 @@ public class LabSIM {
 		
 	public static void main(String[] args) {
 		
-		//setOutputStream("registro.log", "error.log");
+	//setOutputStream("registro.log", "error.log");
 		
 		/**  
 		instancia asociada al fichero de entrada inicio.txt
@@ -68,10 +68,12 @@ public class LabSIM {
 				,29,29};
 		int[] combinacion = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
 	
-//		laberinto.distribuirLlaves(id_salas_llaves, llaves_sala);
 		laberinto.configurarPuerta(combinacion);
-		laberinto.pintarLaberinto();
-//		laberinto.simular();
+//		laberinto.distribuirLlaves(id_salas_llaves, llaves_sala);
+	
+//		laberinto.pintarLaberinto();
+		
+		laberinto.simular();
 		
 //		System.out.close();
 //		System.err.close();
