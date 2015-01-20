@@ -26,7 +26,7 @@ public class GenerarRutaProfunda implements GeneradorRutas {
 		Grafo g = l.obtenerGrafo();
 		Queue<Integer> visitados = new ArrayDeque<Integer>();
 		List<Integer> ruta = new LinkedList<Integer>();
-		profundidad(g, 0, 35, visitados, ruta);
+		profundidad(g, 0, l.getAlto()*l.getAncho()-1, visitados, ruta);
 		return generarDirecciones(ruta);
 	}
 
