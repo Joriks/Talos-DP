@@ -257,6 +257,9 @@ public class Laberinto {
 			for(int x = 0; x<5; x++)
 				sala.meterLlave(new Llave(llaves_sala[i*5+x]));
 		}
+		System.out.println("(distribucion llaves)");
+		pintarSalas();
+		pintarRutas();
 	}
 	
 	/**
@@ -309,15 +312,15 @@ public class Laberinto {
 	 * Complejidad: O(n^2)
 	 */
 	public void simular(){
-		pintarLaberinto();
+		pintarMapa();
 		Sala s = salas.get(sala_puerta);
 		Puerta p = s.obtenerPuerta();
 		turno_actual = 0;
-		while(turno_actual<max_turnos && p.estadoPuerta() == Estados.Cerrada){
+		while(turno_actual<max_turnos && p.estadoPuerta() == Estados.cerrada){
 			simularTurno(turno_actual);
 			turno_actual++;
 		}
-		if(p.estadoPuerta() == Estados.Abierta)
+		if(p.estadoPuerta() == Estados.abierta)
 			System.out.println(salas.get(sala_ganadores).stringGanadores());
 	}
 	
@@ -332,7 +335,39 @@ public class Laberinto {
 		for(Entry<Integer, Sala> par_sala : salas.entrySet()){
 			par_sala.getValue().simularTurno(turno);
 		}
-		pintarLaberinto();
+		pintarLaberinto(turno);
+	}
+	
+	private void pintarLaberinto(int turno) {
+		System.out.println(this.toString());
+		pintarMapa();
+		pintarSalas();
+		pintarRobots();
+	}
+	
+
+	private void pintarSalas() {
+		for(Entry<Integer, Sala> par_sala : salas.entrySet()){
+			Sala sala = par_sala.getValue();
+			if(sala.tieneLlaves())
+				System.out.println(sala.toString());
+		}
+	}
+
+	private void pintarRobots() {
+		for(Entry<Integer, Sala> par_sala : salas.entrySet()){
+			Sala sala = par_sala.getValue();
+			if(sala.robotsEnSala() > 0 && par_sala.getKey() != sala_ganadores)
+				sala.pintarRobots();
+		}
+	}
+	
+	private void pintarRutas(){
+		for(Entry<Integer, Sala> par_sala : salas.entrySet()){
+			Sala sala = par_sala.getValue();
+			if(sala.robotsEnSala() > 0 && par_sala.getKey() != sala_ganadores)
+				sala.pintarRutas();
+		}
 	}
 	
 	/**
@@ -341,8 +376,7 @@ public class Laberinto {
 	 * POST: Pinta el estado actual del laberinto.
 	 * Complejidad: O(n^2)
 	 */
-	public void pintarLaberinto(){
-		System.out.println(toString());
+	public void pintarMapa(){
 		for(int i = 0;i<ancho;i++)
 			System.out.print(" _");
 		
@@ -426,7 +460,7 @@ public class Laberinto {
 	public boolean puertaAbierta() {
 		Sala s = salas.get(sala_puerta);
 		Puerta p = s.obtenerPuerta();
-		return (p.estadoPuerta() == Estados.Abierta);
+		return (p.estadoPuerta() == Estados.abierta);
 	}
 	
 	public int obtenerSiguiente(int origen, int destino){

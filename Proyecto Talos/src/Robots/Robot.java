@@ -115,7 +115,7 @@ public abstract class Robot {
 		Puerta puerta = laberinto.obtenerPuerta(sala_actual);
 		if(puerta != null)
 			try {//TODO cambiar por una compbrobación de si hay llaves, mejor en 
-				System.out.println("Probada llave " + llaves.peekFirst().toString());
+//				System.out.println("Probada llave " + llaves.peekFirst().toString());
 				puerta.probarLlave(llaves.pop());
 			} catch (Exception e) {
 			}
@@ -196,6 +196,11 @@ public abstract class Robot {
 	 */
 	protected void incrementarTurno() {
 		turno++;
+	}
+	
+	public void mostrarRuta(){
+		System.out.println("(ruta:" + marca + ":" + ruta.toString().
+				replace(", ", " ").replace("[", "").replace("]", "") + ")");
 	}
 	
 	@Override

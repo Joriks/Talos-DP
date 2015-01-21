@@ -19,22 +19,22 @@ public class PuertaTest {
 		
 		assertTrue(p1.estadoPuerta() == Estados.NoConfigurada);
 		assertFalse(p2.estadoPuerta() == Estados.NoConfigurada);
-		assertFalse(p2.estadoPuerta() == Estados.Abierta);
+		assertFalse(p2.estadoPuerta() == Estados.abierta);
 		
 		p1.configurarPuerta(combi1, 3);
-		assertTrue(p1.estadoPuerta() == Estados.Cerrada);
+		assertTrue(p1.estadoPuerta() == Estados.cerrada);
 		
 		p1.probarLlave(new Llave(4));
 		p1.probarLlave(new Llave(2));
 		p1.probarLlave(new Llave(5));
 		
-		assertTrue(p1.estadoPuerta() == Estados.Abierta);
+		assertTrue(p1.estadoPuerta() == Estados.abierta);
 		
 		assertTrue(p2.probarLlave(new Llave(5)));
 		assertFalse(p2.probarLlave(new Llave(2)));
 		assertFalse(p2.probarLlave(new Llave(5)));
 		
-		assertTrue(p2.estadoPuerta() == Estados.Cerrada);
+		assertTrue(p2.estadoPuerta() == Estados.cerrada);
 		
 		
 	}

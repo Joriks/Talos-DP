@@ -102,6 +102,10 @@ public class Sala {
 		puerta = new Puerta(combinacion, altura);
 	}
 	
+	public boolean tieneLlaves(){
+		return !llaves_sala.isEmpty();
+	}
+	
 	/**
 	 * Metodo que saca y devuelve la primera llave a sacar
 	 * PRE: La sala debe estar inicializada
@@ -190,6 +194,16 @@ public class Sala {
 		}
 	}
 	
+	public void pintarRobots(){
+		for(Robot robot : robots_sala)
+			System.out.println(robot.toString());
+	}
+	
+	public void pintarRutas(){
+		for(Robot robot : robots_sala)
+			robot.mostrarRuta();
+	}
+	
 	/**
 	 * Metodo que devuelve el string de los robots ganadores
 	 * PRE: La sala debe estar inicializada
@@ -204,7 +218,7 @@ public class Sala {
 
 	@Override
 	public String toString() {
-		return "(sala:" + id_sala + ":" + llaves_sala.toString().replace(", ", "\n")
+		return "(sala:" + id_sala + ":" + llaves_sala.toString().replace(", ", " ")
 				.replace("[", "").replace("]", "") + ")";
 	}
 }
