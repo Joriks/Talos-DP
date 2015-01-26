@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import Estructuras.Grafo;
+import Excepciones.LaberintoException;
 import Robots.Robot;
 import Utilidades.GenAleatorios;
 
@@ -109,9 +110,14 @@ public class Laberinto {
 	 * @param dim_x El ancho con el que configurar del laberinto
 	 * @param dim_y El alto con el que configurar del laberinto
 	 * Complejidad: O(n)
+	 * @throws LaberintoException 
 	 */
 	public void configurarLaberinto(int sala_puerta, int dimX, int dimY, 
-			int altura_arbol){
+			int altura_arbol) throws LaberintoException {
+		if(dimX < 0 || dimY < 0 || altura_arbol < 0 || sala_puerta < 0 ||
+				sala_puerta > (dimX*dimY) || (dimX*dimY) < 9)
+			throw new LaberintoException("(laberinto:" + ancho + ":" + alto +
+					":" + sala_puerta + ":" + altura_arbol + ")");
 		ancho = dimX;
 		alto = dimY;
 		this.altura_arbol = altura_arbol;
@@ -278,7 +284,6 @@ public class Laberinto {
 	}
 		
 	private void salasMayorFrecuencia(int vertice, Set<Integer> visitadas) {
-		// TODO Auto-generated method stub
 		if(vertice == sala_puerta){
 			for(Integer ady: visitadas){
 				Sala sala = salas.get(ady);
@@ -540,7 +545,7 @@ public class Laberinto {
 	}
 
 	public Grafo obtenerGrafo() {
-		// TODO Auto-generated method stub
+		// TODO cambiar
 		return caminos;
 	}
 }

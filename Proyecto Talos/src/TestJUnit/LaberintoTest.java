@@ -16,7 +16,7 @@ public class LaberintoTest {
 	@Test
 	public void testPuerta() {
 		Laberinto l = Laberinto.getInstancia();
-		l.configurarLaberinto(29, 5, 6, 3);
+		//l.configurarLaberinto(29, 5, 6, 3);
 		int[] combinacion = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
 		
 		assertFalse(l.tienePuerta(29));
@@ -31,7 +31,7 @@ public class LaberintoTest {
 	@Test
 	public void testLlaves() {
 		Laberinto l = Laberinto.getInstancia();
-		l.configurarLaberinto(29, 5, 6, 3);
+		//l.configurarLaberinto(29, 5, 6, 3);
 		Sala s = new Sala(0);
 		
 		s = l.obtenerSala(0);
@@ -47,7 +47,7 @@ public class LaberintoTest {
 	@Test
 	public void testRobots() {
 		Laberinto l = Laberinto.getInstancia();
-		l.configurarLaberinto(29, 5, 6, 3);
+		//l.configurarLaberinto(29, 5, 6, 3);
 		Robot a;
 		try {
 			a = new Asimo("Asimo1", 'A', 0, 0);

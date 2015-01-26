@@ -41,7 +41,7 @@ public class LabSIM {
 		
 	public static void main(String[] args) {
 		
-	//setOutputStream("registro.log", "error.log");
+	setOutputStream("registro.log", "error.log");
 		
 		/**  
 		instancia asociada al fichero de entrada inicio.txt
@@ -52,23 +52,31 @@ public class LabSIM {
 			MŽtodo que procesa l’nea a l’nea el fichero de entrada inicio.txt
 			*/
 		     FicheroCarga.procesarFichero("inicio.txt", cargador);
+
+		     Laberinto laberinto = Laberinto.getInstancia();
+
+		     int[] combinacion = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
+
+		     laberinto.configurarPuerta(combinacion);
+
+		     laberinto.simular();
+
 		}
 		catch (FileNotFoundException valor)  {
-			System.err.println ("Excepci—n capturada al procesar fichero: "+valor.getMessage());
+			System.err.println ("Excepción Capturada al procesar el fichero: " 
+		+ valor.getMessage());
+			System.err.println("Debe existir el fichero inicio.txt o renombrar "
+					+ "los posibles inicio10x10 inicio10x6 o inicio6x6 a inicio.txt");
 		}
 		catch (IOException valor)  {
-			System.err.println ("Excepci—n capturada al procesar fichero: "+valor.getMessage());
+			System.err.println ("Excepción Capturada al procesar el fichero: " 
+		+ valor.getMessage());
+			System.err.println("El fichero inicio.txt se ha encontrado pero no"
+					+ "se ha podido abrir y/o leer");
 		}
 		
-		Laberinto laberinto = Laberinto.getInstancia();
 		
-		int[] combinacion = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
-	
-		laberinto.configurarPuerta(combinacion);
-			
-		laberinto.simular();
-		
-//		System.out.close();
-//		System.err.close();
+		System.out.close();
+		System.err.close();
 	}
 }

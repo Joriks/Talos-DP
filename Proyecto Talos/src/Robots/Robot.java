@@ -52,10 +52,12 @@ public abstract class Robot {
 		this.nombre = nombre;
 		this.marca = marca;
 		if(turno < 0)
-			throw new RobotException("Configuracion");
+			throw new RobotException("(Robot:" + nombre + ":" + marca + ":" 
+			+ sala_actual + ":" + turno + ")");
 		this.turno = turno;
 		if(sala_actual < 0)
-			throw new RobotException("Configuracion");
+			throw new RobotException("(Robot:" + nombre + ":" + marca + ":" 
+					+ sala_actual + ":" + turno + ")");
 		this.sala_actual = sala_actual;
 		llaves = new ArrayDeque<Llave>();
 		ruta = new ArrayDeque<Direccion>();
@@ -97,7 +99,11 @@ public abstract class Robot {
 		if(this.turno == turno_actual){
 			interactuarPuerta();
 			if(puedeMover())
-				moverRobot();
+				try {
+					moverRobot();
+				} catch (RobotException robot_exception) {
+					System.err.println(robot_exception.getMovimientoMessage());
+				}
 			interactuarLlave();
 			incrementarTurno();
 			return true;
@@ -140,7 +146,7 @@ public abstract class Robot {
 	 * POST:
 	 * Complejidad: O(1)
 	 */
-	protected void moverRobot(){
+	protected void moverRobot() throws RobotException{
 		Laberinto laberinto = Laberinto.getInstancia();
 		int ancho = laberinto.getAncho(), alto = laberinto.getAlto();
 		int sala_antigua = sala_actual;
@@ -168,8 +174,8 @@ public abstract class Robot {
 				break;
 
 			default:
-				System.err.println("Error de direccion");//Cambiar por DireccionException?
-				break;
+				throw new RobotException("(Robot:" + nombre + ":" + marca + ":" 
+			+ sala_actual + ":" + turno + ")");
 			}
 			ruta.addLast(movimiento);
 		}

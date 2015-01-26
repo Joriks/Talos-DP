@@ -1,21 +1,23 @@
 package Excepciones;
 
-import java.util.List;
 
 public class RobotException extends Exception{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2012051512548880732L;
+
 	public RobotException(String string) {
-		// TODO Auto-generated constructor stub
 		super(string);
 	}
 
-	public void configuracionMal(List<String> vCampos, int idSala) {
-		String cadenaError = "Robot no insertado: ";
-		
-		if (Integer.valueOf(vCampos.get(3))<0)
-			cadenaError += vCampos.get(1) + " Turno erroneo";
-		if (idSala<0)
-			System.err.println(" Sala erronea");
-		System.err.println(cadenaError);
+	public String getConfiguracionMessage(){
+		return getMessage() + " El robot tiene parametros de configuración no "
+				+ "permitidos";
 	}
 	
+	public String getMovimientoMessage(){
+		return getMessage() + " El movimiento indicado en la ruta del robot "
+				+ "no coincide con las existentes Direccion {N,S,E,O}";
+	}
 }

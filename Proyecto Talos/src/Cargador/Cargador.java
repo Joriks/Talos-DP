@@ -2,6 +2,8 @@ package Cargador;
 
 import java.util.List;
 
+import Excepciones.CargadorException;
+import Excepciones.LaberintoException;
 import Excepciones.RobotException;
 import Robots.Asimo;
 import Robots.Bender;
@@ -77,53 +79,70 @@ public class Cargador {
 	 */
 	public void crear(String elto, int numCampos, List<String> vCampos)	{
 	    //Si existe elemento y el nœmero de campos es correcto, procesarlo... si no, error
-	    int numElto = queElemento(elto);
 
 	    //Comprobaci—n de datos b‡sicos correctos
-	    if ((numElto!=-1) && (mapeo[numElto].getCampos() == numCampos))   {
 	       //procesar
 	       switch(queElemento(elto)) {
 	        case 0:	   
-	            crearLab(numCampos,vCampos);
-	            break;
+	        	try {
+	        		crearLab(numCampos,vCampos);
+	        	} catch (CargadorException cargador_exception) {
+	        		System.err.println(cargador_exception.getLaberintoMessage());
+	        	}
+	        	break;
 	        case 1:
-	            crearBender(numCampos,vCampos);
-	            break;
+	        	try {
+	        		crearBender(numCampos,vCampos);
+	        	} catch (CargadorException cargador_exception) {
+	        		System.err.println(cargador_exception.getRobotMessage());
+	        	}
+	        	break;
 	        case 2:
-	            crearSonny(numCampos,vCampos);
-	            break;
+	        	try {
+	        		crearSonny(numCampos,vCampos);
+	        	} catch (CargadorException cargador_exception) {
+	        		System.err.println(cargador_exception.getRobotMessage());
+	        	}
+	        	break;
 	        case 3:
-	            crearSpirit(numCampos,vCampos);
-	            break;
+	        	try {
+	        		crearSpirit(numCampos,vCampos);
+	        	} catch (CargadorException cargador_exception) {
+	        		System.err.println(cargador_exception.getRobotMessage());
+	        	}
+	        	break;
 	        case 4:
-	            crearAsimo(numCampos,vCampos);
-	            break;
-	     	}
-	    }
-	    else
-	        System.out.println("ERROR Cargador::crear: Datos de configuraci—n "
-	        		+ "incorrectos... " + elto + "," + numCampos+"\n");
+	        	try {
+	        		crearAsimo(numCampos,vCampos);
+	        	} catch (CargadorException cargador_exception) {
+	        		System.err.println(cargador_exception.getRobotMessage());
+	        	}
+	        	break;
+	       }
 	}
 
 	/**
-	 *  mÃ©todo que crea una instancia de la clase Planta
+	 *  mÃ©todo que crea una instancia de la clase Laberinto
 	 *  @param numCampos nœmero de atributos que tendr‡ la instancia
 	 *  @param vCampos array que contiene los valores de cada atributo
 	 */
-	private void crearLab(int numCampos, List<String> vCampos){//Antes de crear
-		//el laberino no se pueden añadir robots
+	private void crearLab(int numCampos, List<String> vCampos) throws CargadorException{
 	    if(numCampos == 5){
 	    	ancho = Integer.valueOf(vCampos.get(1));
 	    	alto = Integer.valueOf(vCampos.get(2));
 	    	lab = Laberinto.getInstancia();
-	    	lab.configurarLaberinto(Integer.valueOf(vCampos.get(3)), ancho, alto,
-	    			Integer.valueOf(vCampos.get(4)));
-//	    	System.out.println("Creado laberinto: Ancho:" + ancho + 
-//	    			" Alto:" + alto + " Salida:" + vCampos.get(3) + 
-//	    			" Altura:" + vCampos.get(4) +"\n");
+	    	try {
+				lab.configurarLaberinto(Integer.valueOf(vCampos.get(3)), ancho, alto,
+						Integer.valueOf(vCampos.get(4)));
+			} catch (LaberintoException laberinto_exception) {
+				laberinto_exception.getConfiguracionMessage();
+			} catch (NumberFormatException e) {
+				System.err.println(e.getMessage());
+			}
 	    }
 	    else
-	    	System.err.println("Error en el número de campos del laberinto");
+	    	throw new CargadorException("Cargador: Laberinto numero de campos "
+	    			+ "establecidos " + numCampos);
 	}
 	
 	/**
@@ -131,86 +150,85 @@ public class Cargador {
 	 *  @param numCampos nœmero de atributos que tendr‡ la instancia
 	 *  @param vCampos array que contiene los valores de cada atributo
 	 */
-	private void crearBender(int numCampos, List<String> vCampos){
+	private void crearBender(int numCampos, List<String> vCampos)throws CargadorException{
 		if(numCampos == 4){
 			Robot robot;
 			try {
 				robot = new Bender(vCampos.get(1),vCampos.get(2).charAt(0),
 						Integer.valueOf(vCampos.get(3)), 0);
 				lab.meterRobot(robot);
-			} catch (RobotException e){
-				e.configuracionMal(vCampos, 0);
+			} catch (RobotException robot_excepcion){
+				System.err.println(robot_excepcion.getConfiguracionMessage());
 			}
-
-//		    System.out.println("Creado Bender: " + robot.toString() + "\n");
 		}
 		else
-			System.err.println("Error en el número de campos del robot Bender");
+			throw new CargadorException("Cargador: Bender numero de campos "
+					+ "establecidos " + numCampos);
 	}
 	
 	/**
 	 *  mÃ©todo que crea una instancia de la clase Sonny
 	 *  @param numCampos nœmero de atributos que tendr‡ la instancia
 	 *  @param vCampos array que contiene los valores de cada atributo
+	 * @throws CargadorException 
 	 */
-	private void crearSonny(int numCampos, List<String> vCampos){
+	private void crearSonny(int numCampos, List<String> vCampos) throws CargadorException{
 		if(numCampos == 4){
 			Robot robot;
 			try {
 				robot = new Sonny(vCampos.get(1),vCampos.get(2).charAt(0),
 						Integer.valueOf(vCampos.get(3)), 0);
 				lab.meterRobot(robot);
-			} catch (RobotException e){
-				e.configuracionMal(vCampos, 0);
+			} catch (RobotException robot_excepcion){
+				System.err.println(robot_excepcion.getConfiguracionMessage());
 			}
-			
-//		    System.out.println("Creado Sonny: " + robot.toString() + "\n");
 		}
 		else
-			System.err.println("Error en el número de campos del robot Sonny");
+			throw new CargadorException("Cargador: Sonny numero de campos "
+					+ "establecidos " + numCampos);
 	}	
 	
 	/**
 	 *  mÃ©todo que crea una instancia de la clase Spirit
 	 *  @param numCampos nœmero de atributos que tendr‡ la instancia
 	 *  @param vCampos array que contiene los valores de cada atributo
+	 * @throws CargadorException 
 	 */
-	private void crearSpirit(int numCampos, List<String> vCampos){
+	private void crearSpirit(int numCampos, List<String> vCampos) throws CargadorException{
 		if(numCampos == 4){
 			Robot robot;
 			try {
 				robot = new Spirit(vCampos.get(1),vCampos.get(2).charAt(0),
 						Integer.valueOf(vCampos.get(3)), ancho*(alto-1));
 				lab.meterRobot(robot);
-			} catch (RobotException e){
-				e.configuracionMal(vCampos, ancho*(alto-1));
+			} catch (RobotException robot_excepcion){
+				System.err.println(robot_excepcion.getConfiguracionMessage());
 			}
-			
-//		    System.out.println("Creado Spirit: " + robot.toString() + "\n");
 		}
 		else
-			System.err.println("Error en el número de campos del robot Spirit");
+			throw new CargadorException("Cargador: Spirit numero de campos "
+					+ "establecidos " + numCampos);
 	}
 	
 	/**
 	 *  mÃ©todo que crea una instancia de la clase Asimo
 	 *  @param numCampos nœmero de atributos que tendr‡ la instancia
 	 *  @param vCampos array que contiene los valores de cada atributo
+	 * @throws CargadorException 
 	 */
-	private void crearAsimo(int numCampos, List<String> vCampos){
+	private void crearAsimo(int numCampos, List<String> vCampos) throws CargadorException{
 		if(numCampos == 4){
 			Robot robot;
 			try {
 				robot = new Asimo(vCampos.get(1),vCampos.get(2).charAt(0),
 						Integer.valueOf(vCampos.get(3)), (ancho*alto)-1);
 				lab.meterRobot(robot);
-			} catch (RobotException e){
-				e.configuracionMal(vCampos, (ancho*alto)-1);
+			} catch (RobotException robot_excepcion){
+				System.err.println(robot_excepcion.getConfiguracionMessage());
 			}
-			
-//		    System.out.println("Creado Asimo: " + robot.toString() + "\n");
 		}
 		else
-			System.err.println("Error en el número de campos del robot Asimo");
+			throw new CargadorException("Cargador: Asimo numero de campos "
+					+ "establecidos " + numCampos);
 	}
 }
