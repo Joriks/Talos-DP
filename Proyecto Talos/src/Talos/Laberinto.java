@@ -134,9 +134,9 @@ public class Laberinto {
 	 * Complejidad: O
 	 */
 	private void configurarParedes() {
-		LinkedList<Pared> listaparedes = new LinkedList<Pared>();
-		generarParedes(listaparedes);
-		tirarParedes(listaparedes);
+		LinkedList<Pared> paredes = new LinkedList<Pared>();
+		generarParedes(paredes);
+		tirarParedes(paredes);
 		generarAtajos();
 	}
 
@@ -147,16 +147,16 @@ public class Laberinto {
 	 * @param listaparedes
 	 * Complejidad: O(n)
 	 */
-	private void generarParedes(LinkedList<Pared> listaparedes) {
+	private void generarParedes(LinkedList<Pared> paredes) {
 		for(int i = 0;i<alto*ancho;i++){
 			if(i-ancho >= 0)//Arriba
-				listaparedes.add(new Pared(i,i-ancho));
+				paredes.add(new Pared(i,i-ancho));
 			if(i%ancho != ancho-1)//Derecha
-				listaparedes.add(new Pared(i,i+1));
+				paredes.add(new Pared(i,i+1));
 			if(i+ancho < ancho*alto)//Abajo
-				listaparedes.add(new Pared(i,i+ancho));
+				paredes.add(new Pared(i,i+ancho));
 			if(i%ancho != 0)//Izquierda
-				listaparedes.add(new Pared(i,i-1));
+				paredes.add(new Pared(i,i-1));
 		}
 	}
 	
@@ -167,13 +167,13 @@ public class Laberinto {
 	 * @param listaparedes
 	 * Complejidad O(n)
 	 */
-	private void tirarParedes(LinkedList<Pared> listaparedes){
-		while(!listaparedes.isEmpty()){
-			int num_pared = GenAleatorios.generarNumero(listaparedes.size());
+	private void tirarParedes(LinkedList<Pared> paredes){
+		while(!paredes.isEmpty()){
+			int num_pared = GenAleatorios.generarNumero(paredes.size());
 //			System.out.println(GenAleatorios.getNumGenerados() + " " + 
 //			listaparedes.size() + " " + num_pared);
-			Pared pared = listaparedes.get(num_pared);
-			listaparedes.remove(num_pared);
+			Pared pared = paredes.get(num_pared);
+			paredes.remove(num_pared);
 			int sala_a = pared.getSalaA();
 			int sala_b = pared.getSalaB();
 			if(obtenerSala(sala_a).getMarca() != obtenerSala(sala_b).getMarca()){
@@ -405,32 +405,7 @@ public class Laberinto {
 		pintarSalas();
 		pintarRobots();
 	}
-	
 
-	private void pintarSalas() {
-		for(Entry<Integer, Sala> par_sala : salas.entrySet()){
-			Sala sala = par_sala.getValue();
-			if(sala.tieneLlaves())
-				System.out.println(sala.toString());
-		}
-	}
-
-	private void pintarRobots() {
-		for(Entry<Integer, Sala> par_sala : salas.entrySet()){
-			Sala sala = par_sala.getValue();
-			if(sala.robotsEnSala() > 0 && par_sala.getKey() != sala_ganadores)
-				sala.pintarRobots();
-		}
-	}
-	
-	private void pintarRutas(){
-		for(Entry<Integer, Sala> par_sala : salas.entrySet()){
-			Sala sala = par_sala.getValue();
-			if(sala.robotsEnSala() > 0 && par_sala.getKey() != sala_ganadores)
-				sala.pintarRutas();
-		}
-	}
-	
 	/**
 	 * Pinta un laberinto 2D y muestra el estado de este.
 	 * PRE: El laberinto debe ser correcto
@@ -471,6 +446,30 @@ public class Laberinto {
 		}
 	}
 
+	private void pintarSalas() {
+		for(Entry<Integer, Sala> par_sala : salas.entrySet()){
+			Sala sala = par_sala.getValue();
+			if(sala.tieneLlaves())
+				System.out.println(sala.toString());
+		}
+	}
+
+	private void pintarRobots() {
+		for(Entry<Integer, Sala> par_sala : salas.entrySet()){
+			Sala sala = par_sala.getValue();
+			if(sala.robotsEnSala() > 0 && par_sala.getKey() != sala_ganadores)
+				sala.pintarRobots();
+		}
+	}
+	
+	private void pintarRutas(){
+		for(Entry<Integer, Sala> par_sala : salas.entrySet()){
+			Sala sala = par_sala.getValue();
+			if(sala.robotsEnSala() > 0 && par_sala.getKey() != sala_ganadores)
+				sala.pintarRutas();
+		}
+	}
+	
 	/**
 	 * Comprueba si una sala dada tiene puerta.
 	 * PRE: El laberinto debe estar creado correctamente y el identificador
@@ -538,5 +537,10 @@ public class Laberinto {
 		Puerta puerta = sala.obtenerPuerta();
 		return "(turno:" + turno_actual + ")\n" + "(laberinto:" + sala_puerta + 
 				")\n" + puerta.toString();
+	}
+
+	public Grafo obtenerGrafo() {
+		// TODO Auto-generated method stub
+		return caminos;
 	}
 }
