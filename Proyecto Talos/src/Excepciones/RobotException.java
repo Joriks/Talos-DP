@@ -1,6 +1,11 @@
 package Excepciones;
 
-
+/**
+ * Clase RobotException generada para obtener las excepciones producidas
+ * en los robots, por la configuracion de estos y el movimiento entre las salas.
+ * @author Jorge
+ *
+ */
 public class RobotException extends Exception{
 	/**
 	 * 

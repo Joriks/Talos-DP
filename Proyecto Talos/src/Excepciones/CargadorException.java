@@ -1,5 +1,11 @@
 package Excepciones;
 
+/**
+ * Clase CargadorException generada para obtener las excepciones producidas
+ * en el cargador.
+ * @author Jorge
+ *
+ */
 public class CargadorException extends Exception{
 
 	/**

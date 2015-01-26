@@ -103,6 +103,16 @@ public class Laberinto {
 	}
 	
 	/**
+	 * Obtiene la sala indicada por parametro
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
+	 * @param id_sala, identificador de la sala a obtener
+	 * @return devuelve la sala pedida
+	 */
+	public Sala getSala(int id_sala){
+		return salas.get(id_sala);
+	}
+	
+	/**
 	 * Metodo para configurar el laberinto inicial.
 	 * PRE: El laberinto debe estar creado y los parámetros ser correctos
 	 * POST: Configura el laberinto con los datos 
@@ -128,16 +138,20 @@ public class Laberinto {
 		}
 		salas.put(sala_ganadores, new Sala(sala_ganadores));
 		max_turnos = 50;
+		
 		configurarParedes();
 		distribuirLlaves();
+		
+		int[] combinacion = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
+		configurarPuerta(combinacion);
 		pintarMapa();
 	}
 	
 	/**
 	 * Metodo que configura las paredes del tablero
-	 * PRE:
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
 	 * POST:
-	 * Complejidad: O
+	 * Complejidad: O(n)
 	 */
 	private void configurarParedes() {
 		LinkedList<Pared> paredes = new LinkedList<Pared>();
@@ -148,7 +162,7 @@ public class Laberinto {
 
 	/**
 	 * Metodo que genera todas las paredes del tablero
-	 * PRE:
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
 	 * POST:
 	 * @param listaparedes
 	 * Complejidad: O(n)
@@ -168,7 +182,7 @@ public class Laberinto {
 	
 	/**
 	 * Metodo que utiliza el algoritmo de kruskal para eliminar paredes del tablero
-	 * PRE:
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
 	 * POST:
 	 * @param listaparedes
 	 * Complejidad O(n)
@@ -193,10 +207,10 @@ public class Laberinto {
 
 	/**
 	 * Metodo que propaga la marca A a todas las salas que tengan la marca B.
-	 * PRE:
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
 	 * POST:
-	 * @param marca_a
-	 * @param marca_b
+	 * @param marca_a, marca de la sala A
+	 * @param marca_b, marca de la sala B
 	 * Complejidad: O(n)
 	 */
 	private void propagarMarca(int marca_a, int marca_b) {
@@ -208,9 +222,9 @@ public class Laberinto {
 
 	/**
 	 * Metodo que elimina el 5% del numero de salas de las paredes existentes.
-	 * PRE:
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
 	 * POST:
-	 * Complejidad:
+	 * Complejidad:O(n)
 	 */
 	private void generarAtajos() {
 		int num_paredes_tirar = ancho*alto*5/100;
@@ -239,6 +253,14 @@ public class Laberinto {
 		caminos.warshall();
 	}
 	
+	/**
+	 * Derrumba la pared entre dos salas
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
+	 * @param sala, sala A
+	 * @param sala_contigua, sala B
+	 * @return devuelve true si tira la pared, false en caso contrario.
+	 * Complejidad:O(1)
+	 */
 	private boolean derrumbarPared(int sala, int sala_contigua) {
 		if(sala >= 0 && sala < (ancho * alto) && sala_contigua >= 0 && sala_contigua < (ancho * alto)){
 			if((!caminos.adyacente(sala, sala_contigua))){
@@ -282,7 +304,14 @@ public class Laberinto {
 			}
 		}
 	}
-		
+	
+	/**
+	 * Modifica las frecuencias de las salas para distribuir las llaves.
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
+	 * @param vertice, sala por donde va el camino
+	 * @param visitadas, conjunto de salas visitadas.
+	 * Complejidad:O(n)
+	 */
 	private void salasMayorFrecuencia(int vertice, Set<Integer> visitadas) {
 		if(vertice == sala_puerta){
 			for(Integer ady: visitadas){
@@ -290,7 +319,6 @@ public class Laberinto {
 				sala.incrementarFrecuencia();
 			}
 		}
-		
 		
 		visitadas.add(vertice);
 		Set<Integer> adyacentes = new HashSet<Integer>();
@@ -303,6 +331,12 @@ public class Laberinto {
 		}
 	}
 	
+	/**
+	 * Obtiene una cola con las salas de mayor frecuencia del laberinto.
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
+	 * @return cola de salas de mayor frecuencia.
+	 * Complejidad:O(n)
+	 */
 	private Deque<Sala> obtenerMayoresSalas(){
 		Deque<Sala> salas_mayores = new ArrayDeque<Sala>();
 		Deque<Sala> salas_frecuencia = new ArrayDeque<Sala>();
@@ -321,8 +355,6 @@ public class Laberinto {
 			salas_frecuencia.remove(sala_max);
 			salas_mayores.addLast(sala_max);
 		}
-		
-		
 		return salas_mayores;
 	}
 
@@ -333,7 +365,7 @@ public class Laberinto {
 	 * @param combinacion Combinación con la que configurar la puerta
 	 * Complejidad: O(n)
 	 */
-	public void configurarPuerta(int[] combinacion){
+	private void configurarPuerta(int[] combinacion){
 		Sala sala = salas.get(sala_puerta);
 		sala.configurarPuerta(combinacion, altura_arbol);
 	}
@@ -348,25 +380,6 @@ public class Laberinto {
 	public void meterRobot(Robot robot){
 		Sala sala = salas.get(robot.obtenerSala());
 		sala.meterRobot(robot);
-	}
-	
-	/**
-	 * Mueve un robot de la sala antigua a la nueva.
-	 * PRE: El laberinto debe estar creado correctamente y los identificadores
-	 * de las salas ser correctos
-	 * POST: Mueve el robot en el laberinto, de la sala antigua a la nueva
-	 * @param id_sala_antigua
-	 * @param id_sala_nueva
-	 * Complejidad: O(1)
-	 */
-	public void moverRobot(int id_sala_antigua, int id_sala_nueva){
-		//TODO cambiar esto, implementar un metodo en laberinto que obtenga una
-		//sala y asi meter el robot
-		//Pasar el metodo a robot
-		Sala sala_antigua = salas.get(id_sala_antigua);
-		Robot robot = sala_antigua.sacarRobot();
-		Sala sala_nueva = salas.get(id_sala_nueva);
-		sala_nueva.meterRobot(robot);
 	}
 	
 	/**
@@ -404,6 +417,14 @@ public class Laberinto {
 		pintarLaberinto(turno);
 	}
 	
+	/**
+	 * Pinta el laberinto completo, con la configuracion del laberinto
+	 * el tablero completo, las salas que tienen llaves, y los robots de las
+	 * salas.
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
+	 * @param turno, turno actual de la simulacion
+	 * Complejidad:O(n)
+	 */
 	private void pintarLaberinto(int turno) {
 		System.out.println(this.toString());
 		pintarMapa();
@@ -451,6 +472,11 @@ public class Laberinto {
 		}
 	}
 
+	/**
+	 * Pinta las salas que tienen llaves
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
+	 * Complejidad:O(n)
+	 */
 	private void pintarSalas() {
 		for(Entry<Integer, Sala> par_sala : salas.entrySet()){
 			Sala sala = par_sala.getValue();
@@ -459,6 +485,11 @@ public class Laberinto {
 		}
 	}
 
+	/**
+	 * Pinta los robots del laberinto
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
+	 * Complejidad:O(n)
+	 */
 	private void pintarRobots() {
 		for(Entry<Integer, Sala> par_sala : salas.entrySet()){
 			Sala sala = par_sala.getValue();
@@ -467,6 +498,11 @@ public class Laberinto {
 		}
 	}
 	
+	/**
+	 * Pinta las rutas de los robots que van a entrar en el laberinto
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
+	 * Complejidad:O(n)
+	 */
 	private void pintarRutas(){
 		for(Entry<Integer, Sala> par_sala : salas.entrySet()){
 			Sala sala = par_sala.getValue();
@@ -496,7 +532,7 @@ public class Laberinto {
 	 * POST: Si la sala indicada tiene puerta la devuelve
 	 * @param id_sala
 	 * @return Puerta
-	 * Complejidad: O(n)
+	 * Complejidad: O(1)
 	 */
 	public Puerta obtenerPuerta(int id_sala) {
 		Sala s = salas.get(id_sala);
@@ -510,7 +546,7 @@ public class Laberinto {
 	 * POST: Devuelve la sala con el identificador dado
 	 * @param id_sala
 	 * @return Sala
-	 * Complejidad: O(n)
+	 * Complejidad: O(1)
 	 */
 	public Sala obtenerSala(int id_sala) {
 		return salas.get(id_sala);
@@ -521,6 +557,7 @@ public class Laberinto {
 	 * PRE: El laberino debe estar inicializado y debe existir una puerta
 	 * POST:
 	 * @return retorna true si la puerta está abierta, false en caso contrario.
+	 * Complejidad:O(1)
 	 */
 	public boolean puertaAbierta() {
 		Sala s = salas.get(sala_puerta);
@@ -528,24 +565,44 @@ public class Laberinto {
 		return (p.estadoPuerta() == Estados.abierta);
 	}
 	
+	/**
+	 * Obtiene el identificador de la sala siguiente en un camino minimo
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
+	 * @param origen, sala origen
+	 * @param destino, sala destino
+	 * @return devuelve el identificador de la sala intermedia
+	 */
 	public int obtenerSiguiente(int origen, int destino){
 		return caminos.siguiente(origen, destino);
 	}
 	
+	/**
+	 * Comprueba si dos salas son adyacentes
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
+	 * @param origen, sala origen
+	 * @param destino, sala destino
+	 * @return retorna true si son adyacentes, false en caso contrario
+	 */
 	public boolean obtenerSiAdyacente(int origen, int destino){
 		return caminos.adyacente(origen, destino);
 	}
 
+	/**
+	 * Obtiene un conjunto de salas adyacentes a la sala indicada.
+	 * PRE: El laberinto debe estar creado correctamente y los parametros ser correctos
+	 * @param origen, sala origen
+	 * @param ady, conjunto de salas adyacentes.
+	 * Complejidad:O(n)
+	 */
+	public void adyacentes(int origen, Set<Integer> ady) {
+		caminos.adyacentes(origen, ady);
+	}
+	
 	@Override
 	public String toString() {
 		Sala sala = salas.get(sala_puerta);
 		Puerta puerta = sala.obtenerPuerta();
 		return "(turno:" + turno_actual + ")\n" + "(laberinto:" + sala_puerta + 
 				")\n" + puerta.toString();
-	}
-
-	public Grafo obtenerGrafo() {
-		// TODO cambiar
-		return caminos;
 	}
 }

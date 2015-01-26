@@ -1,5 +1,11 @@
 package Excepciones;
 
+/**
+ * Clase LaberintoException generada para obtener las excepciones producidas
+ * en el cargador, como configuracion incorrecta.
+ * @author Jorge
+ *
+ */
 public class LaberintoException extends Exception{
 	
 	/**

@@ -29,6 +29,13 @@ public class GenerarRutaMinima implements GeneradorRutas{
 		return ruta;
 	}
 	
+	/**
+	 * Metodo que calcula la ruta minima desde un origen a un destino.
+	 * @param origen, sala de origen de la ruta
+	 * @param destino, sala de destino de la ruta
+	 * @return Deque<Direccion> retorna la secuencia de direcciones.
+	 * Complejidad: O(n)
+	 */
 	private Deque<Direccion> camino(int origen, int destino){
 		Deque<Direccion> camino = new ArrayDeque<Direccion>();
 		Laberinto laberinto = Laberinto.getInstancia();

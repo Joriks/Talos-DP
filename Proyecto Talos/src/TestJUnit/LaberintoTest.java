@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import Excepciones.LaberintoException;
 import Excepciones.RobotException;
 import Robots.Asimo;
 import Robots.Robot;
@@ -16,12 +17,14 @@ public class LaberintoTest {
 	@Test
 	public void testPuerta() {
 		Laberinto l = Laberinto.getInstancia();
-		//l.configurarLaberinto(29, 5, 6, 3);
-		int[] combinacion = {1,3,5,7,9,11,13,15,17,19,21,23,25,27,29};
+		try {
+			l.configurarLaberinto(29, 5, 6, 3);
+		} catch (LaberintoException e) {
+			e.printStackTrace();
+		}
 		
 		assertFalse(l.tienePuerta(29));
 		
-		l.configurarPuerta(combinacion);
 		assertTrue(l.tienePuerta(29));
 		
 		assertFalse(l.tienePuerta(1));
@@ -31,7 +34,11 @@ public class LaberintoTest {
 	@Test
 	public void testLlaves() {
 		Laberinto l = Laberinto.getInstancia();
-		//l.configurarLaberinto(29, 5, 6, 3);
+		try {
+			l.configurarLaberinto(29, 5, 6, 3);
+		} catch (LaberintoException e) {
+			e.printStackTrace();
+		}
 		Sala s = new Sala(0);
 		
 		s = l.obtenerSala(0);
@@ -47,7 +54,11 @@ public class LaberintoTest {
 	@Test
 	public void testRobots() {
 		Laberinto l = Laberinto.getInstancia();
-		//l.configurarLaberinto(29, 5, 6, 3);
+		try {
+			l.configurarLaberinto(29, 5, 6, 3);
+		} catch (LaberintoException e1) {
+			e1.printStackTrace();
+		}
 		Robot a;
 		try {
 			a = new Asimo("Asimo1", 'A', 0, 0);
@@ -77,6 +88,19 @@ public class LaberintoTest {
 		}
 	}
 	
+	@Test
+	public void testConfiguracionInicial(){
+		System.out.println("Test de kruskal para laberinto de 6x6");
+		Laberinto l = Laberinto.getInstancia();
+		try {
+			l.configurarLaberinto(35, 6, 6, 5);
+			System.out.println("El algoritmo de kruskal debe tirar la pared"
+					+ "entre la sala 34 y la sala 35");
+		} catch (LaberintoException e) {
+			e.printStackTrace();
+		}
+	}
+		
 	@Test
 	public void test() {
 	}

@@ -1,7 +1,6 @@
 package Robots;
 
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Deque;
 
 import Excepciones.RobotException;
@@ -62,19 +61,11 @@ public abstract class Robot {
 		llaves = new ArrayDeque<Llave>();
 		ruta = new ArrayDeque<Direccion>();
 	}
-	
-	/**
-	 * Asigna el conjunto de direcciones a la ruta del robot.
-	 * @param direcciones
-	 */
-	public void asignarRuta(Direccion[] direcciones){
-		ruta.addAll(Arrays.asList(direcciones));
-	}
 
 	/**
 	 * Obtiene el identificador de la sala en la que se encuentra el robot
 	 * en ese turno.
-	 * @return
+	 * @return sala dondese encuentra el robot
 	 */
 	public int obtenerSala(){
 		return sala_actual;
@@ -82,7 +73,7 @@ public abstract class Robot {
 	
 	/**
 	 * Obtiene la marca identificativa del robot.
-	 * @return
+	 * @return marca del robot
 	 */
 	public char obtenerMarca(){
 		return marca;
@@ -93,7 +84,8 @@ public abstract class Robot {
 	 * PRE:
 	 * POST:
 	 * Complejidad: O(log n)
-	 * @param laberinto 
+	 * @param turno_actual, indica el turno por el que va la simulacion.
+	 * return true si realiza alguna accion, false en caso contrario.
 	 */
 	public boolean simularTurno(int turno_actual){
 		if(this.turno == turno_actual){
@@ -114,22 +106,25 @@ public abstract class Robot {
 
 	/**
 	 * Accion a ejecutar sobre la puerta.
-	 * @param puerta, puerta sobre la que se va a ejecutar una acción
 	 * PRE:
 	 * POST:
 	 * Complejidad: O(log n)
 	 */
 	protected void interactuarPuerta(){
 		Laberinto laberinto = Laberinto.getInstancia();
-		Puerta puerta = laberinto.obtenerPuerta(sala_actual);
-		if(puerta != null)
-			try {//TODO cambiar por una compbrobación de si hay llaves, mejor en 
-//				System.out.println("Probada llave " + llaves.peekFirst().toString());
+		if(laberinto.tienePuerta(sala_actual)){
+			Puerta puerta = laberinto.obtenerPuerta(sala_actual);
+			if(!llaves.isEmpty())
 				puerta.probarLlave(llaves.pop());
-			} catch (Exception e) {
-			}
+		}
 	}
 
+	/**Hook que comprueba si el robot en cuestion puede moverse
+	 * PRE:
+	 * POST:
+	 * @return true si el robot puede moverse, false en caso contrario.
+	 * Complejidad: O(1)
+	 */
 	protected boolean puedeMover() {
 		Laberinto laberinto = Laberinto.getInstancia();
 		if(laberinto.tienePuerta(sala_actual)){
@@ -179,7 +174,10 @@ public abstract class Robot {
 			}
 			ruta.addLast(movimiento);
 		}
-		laberinto.moverRobot(sala_antigua, sala_actual);
+		Sala sala = laberinto.getSala(sala_antigua);
+		Robot robot = sala.sacarRobot();
+		sala = laberinto.getSala(sala_actual);
+		sala.meterRobot(robot);
 	}
 	
 	/**
@@ -190,11 +188,11 @@ public abstract class Robot {
 	 * Complejidad: O(1).
 	 */
 	protected void interactuarLlave(){
-		Llave llave;
 		Laberinto laberinto = Laberinto.getInstancia();
 		Sala sala = laberinto.obtenerSala(sala_actual);
-		if(sala != null && (llave = sala.sacarLlave()) != null)
-			llaves.push(llave);
+		if(sala.tieneLlaves()){
+			llaves.push(sala.sacarLlave());
+		}
 	}
 	
 	/**
@@ -207,6 +205,12 @@ public abstract class Robot {
 		turno++;
 	}
 	
+	/**
+	 * Muestra la ruta que segurira el robot
+	 * PRE:
+	 * POST:
+	 * Complejidad: O(1)
+	 */
 	public void mostrarRuta(){
 		System.out.println("(ruta:" + marca + ":" + ruta.toString().
 				replace(", ", " ").replace("[", "").replace("]", "") + ")");

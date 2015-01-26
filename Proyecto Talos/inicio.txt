@@ -2,9 +2,9 @@
 LABERINTO#6#6#35#5#
 --Personajes de la simulación
 ASIMO#asimo1#A#1#
---BENDER#bender1#B#3#
+BENDER#bender1#B#3#
 SPIRIT#spirit1#S#7#
---BENDER#bender2#N#4#
---SONNY#sonny1#Y#2#
+BENDER#bender2#N#4#
+SONNY#sonny1#Y#2#
 ASIMO#asimo2#O#2#
 SPIRIT#spirit2#T#5#

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
-import Estructuras.Grafo;
 import Robots.Direccion;
 import Talos.Laberinto;
 
@@ -23,14 +22,23 @@ public class GenerarRutaProfunda implements GeneradorRutas {
 	@Override
 	public Deque<Direccion> generarRuta() {
 		Laberinto l = Laberinto.getInstancia();
-		Grafo g = l.obtenerGrafo();
 		Queue<Integer> visitados = new ArrayDeque<Integer>();
 		List<Integer> ruta = new LinkedList<Integer>();
-		profundidad(g, 0, l.getAlto()*l.getAncho()-1, visitados, ruta);
+		profundidad(0, l.getAlto()*l.getAncho()-1, visitados, ruta);
 		return generarDirecciones(ruta);
 	}
 
-	private boolean profundidad(Grafo g, int vertice, int salida,
+	/**
+	 * Metodo que calcula mediante el algoritmo de profundidad una ruta desde
+	 * la sala origen a la sala de salida.
+	 * @param vertice, sala por donde va el camino
+	 * @param salida, sala de salida del laberinto
+	 * @param visitados, conjunto de salas visitadas
+	 * @param ruta, lista de salas de la ruta
+	 * @return retorna true si encuentra una ruta, false en caso contrario.
+	 * Complejidad: O(n log n)
+	 */
+	private boolean profundidad(int vertice, int salida,
 			Queue<Integer> visitados, List<Integer> ruta) {
 		if(vertice == salida)
 			return true;
@@ -39,7 +47,8 @@ public class GenerarRutaProfunda implements GeneradorRutas {
 
 		visitados.add(vertice);
 		ruta.add(vertice);
-		g.adyacentes(vertice, ady);
+		Laberinto l = Laberinto.getInstancia();
+		l.adyacentes(vertice, ady);
 		for (Integer adyacente : ady) {
 			if(!visitados.contains(adyacente) && !flag){
 				if(adyacente == salida){
@@ -48,7 +57,7 @@ public class GenerarRutaProfunda implements GeneradorRutas {
 					flag = true;
 				}
 				else{
-					flag = profundidad(g, adyacente, salida, visitados, ruta);
+					flag = profundidad(adyacente, salida, visitados, ruta);
 				}
 			}
 		}
@@ -57,6 +66,13 @@ public class GenerarRutaProfunda implements GeneradorRutas {
 		return flag;
 	}
 
+	/**
+	 * Dada una lista de enteros, devuelve una cola de direcciones que los robots
+	 * pueden seguir y entender.
+	 * @param ruta, lista de salas por las que pasa la ruta
+	 * @return devuelve una cola de direcciones
+	 * Complejidad: O(n)
+	 */
 	private Deque<Direccion> generarDirecciones(List<Integer> ruta) {
 		Deque<Direccion> movimientos = new ArrayDeque<Direccion>();
 		Laberinto l = Laberinto.getInstancia();

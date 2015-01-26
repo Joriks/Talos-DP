@@ -47,8 +47,8 @@ public class Asimo extends Robot{
 	@Override
 	protected void interactuarPuerta() {
 		Laberinto laberinto = Laberinto.getInstancia();
-		Puerta puerta = laberinto.obtenerPuerta(sala_actual);
-		if(puerta != null){
+		if(laberinto.tienePuerta(sala_actual)){
+			Puerta puerta = laberinto.obtenerPuerta(sala_actual);
 			System.out.println(nombre + ":" + marca + ":" + "Cierro puerta");
 			puerta.cerrarPuerta();
 		}
@@ -63,13 +63,11 @@ public class Asimo extends Robot{
 	 */
 	@Override
 	protected void interactuarLlave() {
-		try {
-			if(sala_actual%2==0){
-				Laberinto laberinto = Laberinto.getInstancia();
-				Sala sala = laberinto.obtenerSala(sala_actual);
+		if(sala_actual%2==0){
+			Laberinto laberinto = Laberinto.getInstancia();
+			Sala sala = laberinto.obtenerSala(sala_actual);
+			if(!llaves.isEmpty())
 				sala.meterLlave(llaves.pop());
-			}
-		} catch (Exception e) {
 		}
 	}
 }

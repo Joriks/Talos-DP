@@ -5,6 +5,8 @@ import java.io.OutputStream;
 
 /**
  * Clase MultiOutputStream, envia un flujo de datos hacia los flujos definidos
+ * Se utiliza para enviar la salida estandar y la salida de error estandar a
+ * los flujos añadidos además de por la pantalla
  * @version 0.2 24/11/2014
  * @author Grupo Talos { Jorge Bote Albalá, Juan Jose Ramón Rodríguez }
  */

@@ -47,6 +47,12 @@ public class Puerta {
 		usadas = new Arbol<Llave>();
 	}
 	
+	/**
+	 * Configura la puerta con la altura y las llaves dadas.
+	 * @param llaves, conjunto de llaves que formaran parte de la combinacion.
+	 * @param altura_puerta, altura del arbol a la que se abrira
+	 * Complejidad:O(n)
+	 */
 	public void configurarPuerta(int[] llaves, int altura_puerta){
 		this.altura_puerta = altura_puerta;
 		guardarCombinacion(llaves);
@@ -55,15 +61,20 @@ public class Puerta {
 		
 	/**
 	 * Guarda la combinacion de llaves en la combinación secreta.
-	 * @param llaves
-	 * PRE:
-	 * POST:
-	 * Complejidad:
+	 * @param llaves, conjunto de llaves que formaran parte de la combinacion.
+	 * Complejidad:O(n)
 	 */
 	private void guardarCombinacion(int[] llaves) {
 		volcarLlaves(llaves, 0, llaves.length-1);
 	}
 	
+	/**
+	 * Vuelca las llaves en el arbol de combinacion secreta
+	 * @param llaves, conjunto de llaves
+	 * @param izq, ultima posicion izquierda
+	 * @param dch, ultima posicion derecha
+	 * Complejidad:O(n)
+	 */
 	private void volcarLlaves(int[] llaves, int izq, int dch) {
 		int medio = (izq + dch)/2;
 		if(medio >= izq && medio <= dch){
@@ -131,6 +142,10 @@ public class Puerta {
 			estado = Estados.abierta;
 	}
 	
+	/**
+	 * Metodo que devuelve el estado de la puerta
+	 * @return estado
+	 */
 	public Estados estadoPuerta(){
 		return estado;
 	}

@@ -1,5 +1,10 @@
 package Talos;
 
+/**
+ * Clase pared, que indica si existe una pared entre dos salas dadas.
+ * @author Jorge
+ *
+ */
 public class Pared {
 	private int sala_a;
 	private int sala_b;

@@ -93,8 +93,7 @@ public class Sala {
 	 * @return Puerta
 	 * Complejidad: O(1)
 	 */
-	public Puerta obtenerPuerta(){//Se puede cambiar por booleano y pasar la puerta
-		//por parametro
+	public Puerta obtenerPuerta(){
 		return puerta;
 	}
 	
@@ -110,6 +109,10 @@ public class Sala {
 		puerta = new Puerta(combinacion, altura);
 	}
 	
+	/**
+	 * Comprueba si la sala tiene llaves
+	 * @return true si tiene llaves, false en caso contrario
+	 */
 	public boolean tieneLlaves(){
 		return !llaves_sala.isEmpty();
 	}
@@ -148,10 +151,17 @@ public class Sala {
 		return robots_sala.poll();
 	}
 	
+	/**
+	 * Obtiene la frecuencia de caminos de la sala
+	 * @return frecuencia.
+	 */
 	public int getFrecuencia(){
 		return frecuencia;
 	}
 	
+	/**
+	 * Incrementa en uno la frecuencia de caminos de la sala
+	 */
 	public void incrementarFrecuencia(){
 		frecuencia++;
 	}
@@ -214,11 +224,19 @@ public class Sala {
 		}
 	}
 	
+	/**
+	 * Pinta los robots existentes en la sala
+	 * Complejidad:O(n)
+	 */
 	public void pintarRobots(){
 		for(Robot robot : robots_sala)
 			System.out.println(robot.toString());
 	}
 	
+	/**
+	 * Pinta las rutas de los robots existentes en la sala
+	 * Complejidad:O(n)
+	 */
 	public void pintarRutas(){
 		for(Robot robot : robots_sala)
 			robot.mostrarRuta();
