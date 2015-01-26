@@ -4,7 +4,6 @@ import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import Robots.Robot;
 
@@ -30,6 +29,9 @@ public class Sala {
 	/** Información de la puerta, si la tiene*/
 	private Puerta puerta;
 	
+	/** Numero de caminos posibles a traves de la sala*/
+	private int frecuencia;
+	
 	/**
 	 * Constructor parametrizado con un identificador de la clase Sala
 	 * PRE:
@@ -42,6 +44,7 @@ public class Sala {
 		robots_sala = new ArrayDeque<Robot>();
 		marca = id;
 		puerta = null;
+		frecuencia = 0;
 	}
 	
 	/**
@@ -56,6 +59,11 @@ public class Sala {
 		robots_sala = new ArrayDeque<Robot>();
 		marca = id;
 		puerta = null;
+		frecuencia = 0;
+	}
+	
+	public int getId(){
+		return id_sala;
 	}
 	
 	/**
@@ -138,6 +146,14 @@ public class Sala {
 	 */
 	public Robot sacarRobot(){
 		return robots_sala.poll();
+	}
+	
+	public int getFrecuencia(){
+		return frecuencia;
+	}
+	
+	public void incrementarFrecuencia(){
+		frecuencia++;
 	}
 	
 	/**

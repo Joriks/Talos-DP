@@ -1,11 +1,14 @@
 package Talos;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import Estructuras.Grafo;
-import Robots.Direccion;
 import Robots.Robot;
 import Utilidades.GenAleatorios;
 
@@ -120,6 +123,8 @@ public class Laberinto {
 		salas.put(sala_ganadores, new Sala(sala_ganadores));
 		max_turnos = 50;
 		configurarParedes();
+		distribuirLlaves();
+		pintarMapa();
 	}
 	
 	/**
@@ -251,17 +256,71 @@ public class Laberinto {
 	 * @param llaves_sala Array de llaves a distribuir
 	 * Complejidad: O(n^2)
 	 */
-	public void distribuirLlaves(int[] id_salas_llaves, int[] llaves_sala){
-		for(int i = 0;i<id_salas_llaves.length;i++){
-			Sala sala = salas.get(id_salas_llaves[i]);
-			for(int x = 0; x<5; x++)
-				sala.meterLlave(new Llave(llaves_sala[i*5+x]));
+	private void distribuirLlaves(){
+		Deque<Llave> llaves = new ArrayDeque<Llave>();
+		for(int i = 0;i<30;i++){
+			llaves.add(new Llave(i));
+			if(i%2 != 0)
+				llaves.add(new Llave(i));
 		}
-		System.out.println("(distribucion llaves)");
-		pintarSalas();
-		pintarRutas();
+		Set<Integer> visitadas = new HashSet<Integer>();
+		salasMayorFrecuencia(0, visitadas);
+			
+		Deque<Sala> salas_distribucion = obtenerMayoresSalas();
+
+		while(!llaves.isEmpty()){
+			Sala sala = salas_distribucion.poll();
+			for(int i = 0;i<5;i++){
+				if(sala.getId() != 0 && sala.getId() != sala_puerta)
+					sala.meterLlave(llaves.poll());
+			}
+		}
+	}
+		
+	private void salasMayorFrecuencia(int vertice, Set<Integer> visitadas) {
+		// TODO Auto-generated method stub
+		if(vertice == sala_puerta){
+			for(Integer ady: visitadas){
+				Sala sala = salas.get(ady);
+				sala.incrementarFrecuencia();
+			}
+		}
+		
+		
+		visitadas.add(vertice);
+		Set<Integer> adyacentes = new HashSet<Integer>();
+		caminos.adyacentes(vertice, adyacentes);
+		for(Integer ady: adyacentes){
+			if(!visitadas.contains(ady)){
+				salasMayorFrecuencia(ady, visitadas);
+				visitadas.remove(ady);
+			}
+		}
 	}
 	
+	private Deque<Sala> obtenerMayoresSalas(){
+		Deque<Sala> salas_mayores = new ArrayDeque<Sala>();
+		Deque<Sala> salas_frecuencia = new ArrayDeque<Sala>();
+		for(Entry<Integer, Sala> par_sala: salas.entrySet())
+			salas_frecuencia.add(par_sala.getValue());
+		
+		salas_frecuencia.pollFirst();
+		salas_frecuencia.pollLast();
+		
+		for(int i = 0;i<9;i++){
+			Sala sala_max = salas_frecuencia.element();
+			for(Sala sala: salas_frecuencia){
+				if(sala.getFrecuencia() > sala_max.getFrecuencia())
+					sala_max = sala;
+			}
+			salas_frecuencia.remove(sala_max);
+			salas_mayores.addLast(sala_max);
+		}
+		
+		
+		return salas_mayores;
+	}
+
 	/**
 	 * Configura la puerta de la sala de salida
 	 * PRE: El laberinto debe estar creado correctamente y la combinacion ser válida
@@ -312,7 +371,9 @@ public class Laberinto {
 	 * Complejidad: O(n^2)
 	 */
 	public void simular(){
-		pintarMapa();
+		System.out.println("(distribucion llaves)");
+		pintarSalas();
+		pintarRutas();
 		Sala s = salas.get(sala_puerta);
 		Puerta p = s.obtenerPuerta();
 		turno_actual = 0;
