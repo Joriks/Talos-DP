@@ -93,14 +93,17 @@ public abstract class Robot {
 	 * Complejidad: O(log n)
 	 * @param laberinto 
 	 */
-	public void simularTurno(int turno_actual){
+	public boolean simularTurno(int turno_actual){
 		if(this.turno == turno_actual){
 			interactuarPuerta();
 			if(puedeMover())
 				moverRobot();
 			interactuarLlave();
 			incrementarTurno();
+			return true;
 		}
+		else
+			return false;
 	}
 
 	/**

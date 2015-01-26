@@ -158,10 +158,14 @@ public class Sala {
 	 * Complejidad: O(n log n)
 	 */
 	public void simularTurno(int turno_actual){
-		//Optimizar con un contador o dejar con el copyonwirte
-		CopyOnWriteArrayList<Robot> robots = new CopyOnWriteArrayList<Robot>(robots_sala);
-		for(Robot robot : robots)
-			robot.simularTurno(turno_actual);
+		int max = robots_sala.size();
+		for(int i = 0;i<max;i++){
+			Robot robot = robots_sala.element();
+			if(!robot.simularTurno(turno_actual)){
+				robot = robots_sala.poll();
+				robots_sala.addLast(robot);
+			}
+		}
 	}
 	
 	/**
