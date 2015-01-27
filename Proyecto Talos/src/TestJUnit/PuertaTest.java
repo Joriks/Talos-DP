@@ -11,6 +11,27 @@ import Talos.Puerta;
 public class PuertaTest {
 
 	@Test
+	public void estadoPuerta(){
+		Puerta p1 = new Puerta();
+		int[] combi1 = {1,2,3,4,5};
+		
+		assertTrue(p1.estadoPuerta() == Estados.NoConfigurada);
+		p1.configurarPuerta(combi1, 5);
+		assertTrue(p1.estadoPuerta() == Estados.Cerrada);
+		p1.probarLlave(new Llave(1));
+		assertTrue(p1.estadoPuerta() == Estados.Abierta);
+	}
+	
+	@Test
+	public void configurarPuerta(){
+		Puerta p1 = new Puerta();
+		int[] combi1 = {1,2,3,4,5};
+		
+		p1.configurarPuerta(combi1, 5);
+		assertTrue(p1.estadoPuerta() == Estados.Cerrada);
+	}
+	
+	@Test
 	public void test() {
 		Puerta p1 = new Puerta();
 		int[] combi1 = {1,2,3,4,5};
@@ -36,7 +57,5 @@ public class PuertaTest {
 		
 		assertTrue(p2.estadoPuerta() == Estados.cerrada);
 		
-		
 	}
-
 }

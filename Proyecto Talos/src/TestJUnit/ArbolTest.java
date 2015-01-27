@@ -10,6 +10,32 @@ import Estructuras.Arbol;
 public class ArbolTest {
 
 	@Test
+	public void insertar(){
+		Arbol<Llave> arbol = new Arbol<Llave>();
+		assertTrue(arbol.insertar(new Llave(5)));
+		assertTrue(arbol.pertenece(new Llave(5)));
+		assertFalse(arbol.insertar(new Llave(5)));
+	}
+	
+	@Test
+	public void borrar(){
+		Arbol<Llave> arbol1 = new Arbol<Llave>();
+		Arbol<Llave> arbol2;
+		arbol1.insertar(new Llave(5));
+		arbol1.insertar(new Llave(3));
+		arbol1.insertar(new Llave(21));
+		arbol2 = new Arbol<Llave>(arbol1);
+		arbol1.borrar(new Llave(5));
+		assertFalse(arbol1.pertenece(new Llave(5)));
+		assertTrue(arbol1.pertenece(new Llave(21)));
+		arbol2.insertar(new Llave(14));
+		arbol2.borrar(new Llave(21));
+		assertTrue(arbol2.pertenece(new Llave(5)));
+		assertFalse(arbol2.pertenece(new Llave(21)));
+		
+	}
+	
+	@Test
 	public void test() {
 		Arbol<Llave> arbol_Llave1 = new Arbol<Llave>();
 		Arbol<Llave> arbol_Llave2 = new Arbol<Llave>();
