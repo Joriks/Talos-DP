@@ -6,6 +6,7 @@ import Excepciones.CargadorException;
 import Excepciones.LaberintoException;
 import Excepciones.RobotException;
 import Robots.Asimo;
+import Robots.AsimoOeste;
 import Robots.Bender;
 import Robots.Robot;
 import Robots.Sonny;
@@ -24,7 +25,7 @@ public class Cargador {
 	/**  
 	nœmero de elementos distintos que tendr‡ la simulaci—n - lab, Bender, Sonny, Spirit, Asimo
 	*/
-	static final int NUMELTOSCONF  = 5;
+	static final int NUMELTOSCONF  = 6;
 	/**  
 	atributo para almacenar el mapeo de los distintos elementos
 	*/
@@ -51,6 +52,7 @@ public class Cargador {
 		mapeo[2]= new DatoMapeo("SONNY", 4);
 		mapeo[3]= new DatoMapeo("SPIRIT", 4);
 		mapeo[4]= new DatoMapeo("ASIMO", 4);
+		mapeo[5]= new DatoMapeo("ASIMOOESTE",4);
 	}
 	
 	/**
@@ -115,6 +117,13 @@ public class Cargador {
 	        	try {
 	        		crearAsimo(numCampos,vCampos);
 	        	} catch (CargadorException cargador_exception) {
+	        		System.err.println(cargador_exception.getRobotMessage());
+	        	}
+	        	break;
+	        case 5:
+	        	try{
+	        		crearAsimoOeste(numCampos,vCampos);
+	        	}catch(CargadorException cargador_exception){
 	        		System.err.println(cargador_exception.getRobotMessage());
 	        	}
 	        	break;
@@ -231,4 +240,21 @@ public class Cargador {
 			throw new CargadorException("Cargador: Asimo numero de campos "
 					+ "establecidos " + numCampos);
 	}
+	
+	private void crearAsimoOeste(int numCampos, List<String> vCampos) throws CargadorException{
+		if(numCampos == 4){
+			Robot robot;
+			try {
+				robot = new AsimoOeste(vCampos.get(1),vCampos.get(2).charAt(0),
+						Integer.valueOf(vCampos.get(3)), (ancho*alto)-1);
+				lab.meterRobot(robot);
+			} catch (RobotException robot_excepcion){
+				System.err.println(robot_excepcion.getConfiguracionMessage());
+			}
+		}
+		else
+			throw new CargadorException("Cargador: Asimo numero de campos "
+					+ "establecidos " + numCampos);
+	}
+
 }

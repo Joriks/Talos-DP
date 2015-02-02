@@ -1,6 +1,6 @@
---Laberinto
-LABERINTO#10#5#49#6#
---Robots de la simulación
+--Mapa
+LABERINTO#6#5#29#5#
+--Personajes de la simulación
 ASIMO#asimo1#A#1#
 BENDER#bender1#B#3#
 SPIRIT#spirit1#S#7#

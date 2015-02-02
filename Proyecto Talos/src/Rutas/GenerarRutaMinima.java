@@ -36,7 +36,7 @@ public class GenerarRutaMinima implements GeneradorRutas{
 	 * @return Deque<Direccion> retorna la secuencia de direcciones.
 	 * Complejidad: O(n)
 	 */
-	private Deque<Direccion> camino(int origen, int destino){
+	protected Deque<Direccion> camino(int origen, int destino){
 		Deque<Direccion> camino = new ArrayDeque<Direccion>();
 		Laberinto laberinto = Laberinto.getInstancia();
 		while(origen != destino){

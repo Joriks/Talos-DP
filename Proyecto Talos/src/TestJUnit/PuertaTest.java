@@ -17,9 +17,9 @@ public class PuertaTest {
 		
 		assertTrue(p1.estadoPuerta() == Estados.NoConfigurada);
 		p1.configurarPuerta(combi1, 5);
-		assertTrue(p1.estadoPuerta() == Estados.Cerrada);
+		assertTrue(p1.estadoPuerta() == Estados.cerrada);
 		p1.probarLlave(new Llave(1));
-		assertTrue(p1.estadoPuerta() == Estados.Abierta);
+		assertTrue(p1.estadoPuerta() == Estados.abierta);
 	}
 	
 	@Test
@@ -28,7 +28,7 @@ public class PuertaTest {
 		int[] combi1 = {1,2,3,4,5};
 		
 		p1.configurarPuerta(combi1, 5);
-		assertTrue(p1.estadoPuerta() == Estados.Cerrada);
+		assertTrue(p1.estadoPuerta() == Estados.cerrada);
 	}
 	
 	@Test
